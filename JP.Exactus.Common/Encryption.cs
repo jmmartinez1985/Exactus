@@ -11,7 +11,7 @@ namespace JP.Exactus.Common
     public class Encryption
     {
         private static byte[] _salt = Encoding.ASCII.GetBytes("485AFF710E82");
-        private static string _secret = "FBBB2568817943FBAE288A0072913046";
+        private static string _secret = "FBBB2568817943FBAE288A0072913046"; 
 
         /// <summary>
         /// Encrypt the given string using AES.  The string can be decrypted using 
