@@ -17,7 +17,11 @@ namespace JP.Exactus.Logic
 
         public EmpresasViewModel obtenerDetalleEmpresa(int empresaId)
         {
-            throw new NotImplementedException();
+
+            this.Context.EMP_Empresas.Create();
+            this.Context.EMP_Empresas.Add(new Data.EMP_Empresas { Emp_Ingreso = System.DateTime.Now, Emp_Nombre = "Isrra" });
+            this.Context.SaveChanges();
+            return null;
         }
     }
 }

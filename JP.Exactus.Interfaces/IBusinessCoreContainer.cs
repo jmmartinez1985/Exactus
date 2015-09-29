@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JP.Exactus.Interfaces
 {
-    public interface IBusinessCoreContainer
+    public interface IBusinessCoreContainer : IDisposable
     {
         IEmpresasBusinessObject Empresas { get; }
     }
