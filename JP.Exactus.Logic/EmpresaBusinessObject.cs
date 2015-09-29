@@ -13,6 +13,7 @@ namespace JP.Exactus.Logic
         public void Dispose()
         {
             throw new NotImplementedException();
+
         }
 
         public EmpresasViewModel obtenerDetalleEmpresa(int empresaId)
