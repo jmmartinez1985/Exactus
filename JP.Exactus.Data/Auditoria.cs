@@ -12,10 +12,13 @@ namespace JP.Exactus.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class EMP_Empresas
+    public partial class Auditoria
     {
-        public int Emp_Id { get; set; }
-        public string Emp_Nombre { get; set; }
-        public Nullable<System.DateTime> Emp_Ingreso { get; set; }
+        public int IDAuditoria { get; set; }
+        public int IDDispositivo { get; set; }
+        public string DescripcionAccion { get; set; }
+        public System.DateTime Fecha { get; set; }
+    
+        public virtual Dispositivo Dispositivo { get; set; }
     }
 }

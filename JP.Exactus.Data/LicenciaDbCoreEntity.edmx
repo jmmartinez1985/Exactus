@@ -4,46 +4,331 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LicenciaCoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="EMP_Empresas">
+    <Schema Namespace="LicenciaCoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auditoria">
           <Key>
-            <PropertyRef Name="Emp_Id" />
+            <PropertyRef Name="IDAuditoria" />
           </Key>
-          <Property Name="Emp_Id" Type="int" Nullable="false" />
-          <Property Name="Emp_Nombre" Type="varchar" MaxLength="100" />
-          <Property Name="Emp_Ingreso" Type="datetime" />
+          <Property Name="IDAuditoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDDispositivo" Type="int" Nullable="false" />
+          <Property Name="DescripcionAccion" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Dispositivo">
+          <Key>
+            <PropertyRef Name="IDDispositivo" />
+          </Key>
+          <Property Name="IDDispositivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDEmpresa" Type="int" Nullable="false" />
+          <Property Name="NombreDispositivo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MACDispositivo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaExpira" Type="date" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="int" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IDEmpresa" />
+          </Key>
+          <Property Name="IDEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreEmpresa" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Ruc" Type="varchar" MaxLength="50" />
+          <Property Name="UrlApi" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Logo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonaContacto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Opciones">
+          <Key>
+            <PropertyRef Name="IDOpcion" />
+          </Key>
+          <Property Name="IDOpcion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionOpcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OpcionesEmpresa">
+          <Key>
+            <PropertyRef Name="IDOpcionEmpresa" />
+          </Key>
+          <Property Name="IDOpcionEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDEmpresa" Type="int" Nullable="false" />
+          <Property Name="IDOpcion" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Auditoria_Dispositivo">
+          <End Role="Dispositivo" Type="Self.Dispositivo" Multiplicity="1" />
+          <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dispositivo">
+              <PropertyRef Name="IDDispositivo" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IDDispositivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dispositivo_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Dispositivo" Type="Self.Dispositivo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Principal>
+            <Dependent Role="Dispositivo">
+              <PropertyRef Name="IDEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpcionesEmpresa_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="OpcionesEmpresa" Type="Self.OpcionesEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Principal>
+            <Dependent Role="OpcionesEmpresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpcionesEmpresa_Opciones">
+          <End Role="Opciones" Type="Self.Opciones" Multiplicity="1" />
+          <End Role="OpcionesEmpresa" Type="Self.OpcionesEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Opciones">
+              <PropertyRef Name="IDOpcion" />
+            </Principal>
+            <Dependent Role="OpcionesEmpresa">
+              <PropertyRef Name="IDOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LicenciaCoreDBModelStoreContainer">
-          <EntitySet Name="EMP_Empresas" EntityType="Self.EMP_Empresas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dispositivo" EntityType="Self.Dispositivo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Opciones" EntityType="Self.Opciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OpcionesEmpresa" EntityType="Self.OpcionesEmpresa" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Auditoria_Dispositivo" Association="Self.FK_Auditoria_Dispositivo">
+            <End Role="Dispositivo" EntitySet="Dispositivo" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dispositivo_Empresa" Association="Self.FK_Dispositivo_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Dispositivo" EntitySet="Dispositivo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpcionesEmpresa_Empresa" Association="Self.FK_OpcionesEmpresa_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="OpcionesEmpresa" EntitySet="OpcionesEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpcionesEmpresa_Opciones" Association="Self.FK_OpcionesEmpresa_Opciones">
+            <End Role="Opciones" EntitySet="Opciones" />
+            <End Role="OpcionesEmpresa" EntitySet="OpcionesEmpresa" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LicenciaCoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="EMP_Empresas">
-          <Key>
-            <PropertyRef Name="Emp_Id" />
-          </Key>
-          <Property Name="Emp_Id" Type="Int32" Nullable="false" />
-          <Property Name="Emp_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Emp_Ingreso" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityContainer Name="LicenciaCoreDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="EMP_Empresas" EntityType="Self.EMP_Empresas" />
+          <EntitySet Name="Auditoria" EntityType="LicenciaCoreDBModel.Auditoria" />
+          <EntitySet Name="Dispositivo" EntityType="LicenciaCoreDBModel.Dispositivo" />
+          <EntitySet Name="Empresa" EntityType="LicenciaCoreDBModel.Empresa" />
+          <EntitySet Name="Opciones" EntityType="LicenciaCoreDBModel.Opciones" />
+          <EntitySet Name="OpcionesEmpresa" EntityType="LicenciaCoreDBModel.OpcionesEmpresa" />
+          <AssociationSet Name="FK_Auditoria_Dispositivo" Association="LicenciaCoreDBModel.FK_Auditoria_Dispositivo">
+            <End Role="Dispositivo" EntitySet="Dispositivo" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dispositivo_Empresa" Association="LicenciaCoreDBModel.FK_Dispositivo_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Dispositivo" EntitySet="Dispositivo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpcionesEmpresa_Empresa" Association="LicenciaCoreDBModel.FK_OpcionesEmpresa_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="OpcionesEmpresa" EntitySet="OpcionesEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpcionesEmpresa_Opciones" Association="LicenciaCoreDBModel.FK_OpcionesEmpresa_Opciones">
+            <End Role="Opciones" EntitySet="Opciones" />
+            <End Role="OpcionesEmpresa" EntitySet="OpcionesEmpresa" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Auditoria">
+          <Key>
+            <PropertyRef Name="IDAuditoria" />
+          </Key>
+          <Property Name="IDAuditoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDDispositivo" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionAccion" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Dispositivo" Relationship="LicenciaCoreDBModel.FK_Auditoria_Dispositivo" FromRole="Auditoria" ToRole="Dispositivo" />
+        </EntityType>
+        <EntityType Name="Dispositivo">
+          <Key>
+            <PropertyRef Name="IDDispositivo" />
+          </Key>
+          <Property Name="IDDispositivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="NombreDispositivo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MACDispositivo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaExpira" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="Int32" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Auditoria" Relationship="LicenciaCoreDBModel.FK_Auditoria_Dispositivo" FromRole="Dispositivo" ToRole="Auditoria" />
+          <NavigationProperty Name="Empresa" Relationship="LicenciaCoreDBModel.FK_Dispositivo_Empresa" FromRole="Dispositivo" ToRole="Empresa" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IDEmpresa" />
+          </Key>
+          <Property Name="IDEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreEmpresa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Ruc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UrlApi" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Logo" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PersonaContacto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Dispositivo" Relationship="LicenciaCoreDBModel.FK_Dispositivo_Empresa" FromRole="Empresa" ToRole="Dispositivo" />
+          <NavigationProperty Name="OpcionesEmpresa" Relationship="LicenciaCoreDBModel.FK_OpcionesEmpresa_Empresa" FromRole="Empresa" ToRole="OpcionesEmpresa" />
+        </EntityType>
+        <EntityType Name="Opciones">
+          <Key>
+            <PropertyRef Name="IDOpcion" />
+          </Key>
+          <Property Name="IDOpcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionOpcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OpcionesEmpresa" Relationship="LicenciaCoreDBModel.FK_OpcionesEmpresa_Opciones" FromRole="Opciones" ToRole="OpcionesEmpresa" />
+        </EntityType>
+        <EntityType Name="OpcionesEmpresa">
+          <Key>
+            <PropertyRef Name="IDOpcionEmpresa" />
+          </Key>
+          <Property Name="IDOpcionEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="IDOpcion" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="LicenciaCoreDBModel.FK_OpcionesEmpresa_Empresa" FromRole="OpcionesEmpresa" ToRole="Empresa" />
+          <NavigationProperty Name="Opciones" Relationship="LicenciaCoreDBModel.FK_OpcionesEmpresa_Opciones" FromRole="OpcionesEmpresa" ToRole="Opciones" />
+        </EntityType>
+        <Association Name="FK_Auditoria_Dispositivo">
+          <End Type="LicenciaCoreDBModel.Dispositivo" Role="Dispositivo" Multiplicity="1" />
+          <End Type="LicenciaCoreDBModel.Auditoria" Role="Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dispositivo">
+              <PropertyRef Name="IDDispositivo" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IDDispositivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dispositivo_Empresa">
+          <End Type="LicenciaCoreDBModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="LicenciaCoreDBModel.Dispositivo" Role="Dispositivo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Principal>
+            <Dependent Role="Dispositivo">
+              <PropertyRef Name="IDEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpcionesEmpresa_Empresa">
+          <End Type="LicenciaCoreDBModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="LicenciaCoreDBModel.OpcionesEmpresa" Role="OpcionesEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Principal>
+            <Dependent Role="OpcionesEmpresa">
+              <PropertyRef Name="IDEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpcionesEmpresa_Opciones">
+          <End Type="LicenciaCoreDBModel.Opciones" Role="Opciones" Multiplicity="1" />
+          <End Type="LicenciaCoreDBModel.OpcionesEmpresa" Role="OpcionesEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Opciones">
+              <PropertyRef Name="IDOpcion" />
+            </Principal>
+            <Dependent Role="OpcionesEmpresa">
+              <PropertyRef Name="IDOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LicenciaCoreDBModelStoreContainer" CdmEntityContainer="LicenciaCoreDBEntities">
-          <EntitySetMapping Name="EMP_Empresas">
-            <EntityTypeMapping TypeName="LicenciaCoreDBModel.EMP_Empresas">
-              <MappingFragment StoreEntitySet="EMP_Empresas">
-                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
-                <ScalarProperty Name="Emp_Nombre" ColumnName="Emp_Nombre" />
-                <ScalarProperty Name="Emp_Ingreso" ColumnName="Emp_Ingreso" />
+          <EntitySetMapping Name="Auditoria">
+            <EntityTypeMapping TypeName="LicenciaCoreDBModel.Auditoria">
+              <MappingFragment StoreEntitySet="Auditoria">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="IDDispositivo" ColumnName="IDDispositivo" />
+                <ScalarProperty Name="IDAuditoria" ColumnName="IDAuditoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dispositivo">
+            <EntityTypeMapping TypeName="LicenciaCoreDBModel.Dispositivo">
+              <MappingFragment StoreEntitySet="Dispositivo">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="FechaExpira" ColumnName="FechaExpira" />
+                <ScalarProperty Name="MACDispositivo" ColumnName="MACDispositivo" />
+                <ScalarProperty Name="NombreDispositivo" ColumnName="NombreDispositivo" />
+                <ScalarProperty Name="IDEmpresa" ColumnName="IDEmpresa" />
+                <ScalarProperty Name="IDDispositivo" ColumnName="IDDispositivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="LicenciaCoreDBModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="PersonaContacto" ColumnName="PersonaContacto" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="UrlApi" ColumnName="UrlApi" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="IDEmpresa" ColumnName="IDEmpresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Opciones">
+            <EntityTypeMapping TypeName="LicenciaCoreDBModel.Opciones">
+              <MappingFragment StoreEntitySet="Opciones">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="DescripcionOpcion" ColumnName="DescripcionOpcion" />
+                <ScalarProperty Name="IDOpcion" ColumnName="IDOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpcionesEmpresa">
+            <EntityTypeMapping TypeName="LicenciaCoreDBModel.OpcionesEmpresa">
+              <MappingFragment StoreEntitySet="OpcionesEmpresa">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IDOpcion" ColumnName="IDOpcion" />
+                <ScalarProperty Name="IDEmpresa" ColumnName="IDEmpresa" />
+                <ScalarProperty Name="IDOpcionEmpresa" ColumnName="IDOpcionEmpresa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

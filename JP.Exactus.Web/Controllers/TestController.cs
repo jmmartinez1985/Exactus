@@ -15,7 +15,7 @@ namespace JP.Exactus.Web.Controllers
 
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var obje = core.Empresas.obtenerDetalleEmpresa(0);
+                var obje = core.Empresas.obtenerDetalleEmpresa(1);
                 return View(obje);
             }
 

@@ -7,7 +7,7 @@ using JP.Exactus.Data.ViewModel;
 
 namespace JP.Exactus.Interfaces
 {
-    public interface IEmpresasBusinessObject: IDisposable
+    public interface IEmpresasBusinessObject
     {
         EmpresasViewModel obtenerDetalleEmpresa(int empresaId);
     }

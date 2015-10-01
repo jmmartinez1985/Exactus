@@ -5,7 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="eb7d1a4b0d2343bebfc6b54acf2031bd" Name="Diagram1">
-        <EntityTypeShape EntityType="LicenciaCoreDBModel.EMP_Empresas" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LicenciaCoreDBModel.Auditoria" Width="1.5" PointX="5.25" PointY="7.625" />
+        <EntityTypeShape EntityType="LicenciaCoreDBModel.Dispositivo" Width="1.5" PointX="3" PointY="7.125" />
+        <EntityTypeShape EntityType="LicenciaCoreDBModel.Empresa" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="LicenciaCoreDBModel.Opciones" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LicenciaCoreDBModel.OpcionesEmpresa" Width="1.5" PointX="3" PointY="3.5" />
+        <AssociationConnector Association="LicenciaCoreDBModel.FK_Auditoria_Dispositivo" />
+        <AssociationConnector Association="LicenciaCoreDBModel.FK_Dispositivo_Empresa" />
+        <AssociationConnector Association="LicenciaCoreDBModel.FK_OpcionesEmpresa_Empresa" />
+        <AssociationConnector Association="LicenciaCoreDBModel.FK_OpcionesEmpresa_Opciones" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

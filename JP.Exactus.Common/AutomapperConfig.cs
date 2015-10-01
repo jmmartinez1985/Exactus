@@ -21,7 +21,7 @@ namespace JP.Exactus.Common
             if (!_isConfigured)
             {
                 // Mapeos de Catalogos.
-                Mapper.CreateMap<EMP_Empresas, EmpresasViewModel>();
+                Mapper.CreateMap<Empresa, EmpresasViewModel>();
               
 
                 _isConfigured = true;

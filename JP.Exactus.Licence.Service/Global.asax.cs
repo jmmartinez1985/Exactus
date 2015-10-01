@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JP.Exactus.Common;
+using JP.Exactus.Web;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +20,12 @@ namespace JP.Exactus.Licence.Service
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Configuración del automapper entre entidades del modelo.
+            AutomapperConfig.Configure();
+
+            //Enlaza las instancias de los servicios a las interfaces usando Ninject.
+            IoCContainer.Bind();
         }
     }
 }

@@ -8,8 +8,16 @@ namespace JP.Exactus.Data.ViewModel
 {
     public class EmpresasViewModel
     {
-        public int Emp_Id { get; set; }
-        public string Emp_Nombre { get; set; }
-        public Nullable<System.DateTime> Emp_Ingreso { get; set; }
+        public int IDEmpresa { get; set; }
+        public string NombreEmpresa { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
+        public string Ruc { get; set; }
+        public string UrlApi { get; set; }
+        public string Logo { get; set; }
+        public string Email { get; set; }
+        public string PersonaContacto { get; set; }
+        public bool Activo { get; set; }
+
     }
 }

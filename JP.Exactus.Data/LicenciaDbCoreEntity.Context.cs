@@ -25,6 +25,10 @@ namespace JP.Exactus.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<EMP_Empresas> EMP_Empresas { get; set; }
+        public virtual DbSet<Auditoria> Auditoria { get; set; }
+        public virtual DbSet<Dispositivo> Dispositivo { get; set; }
+        public virtual DbSet<Empresa> Empresa { get; set; }
+        public virtual DbSet<Opciones> Opciones { get; set; }
+        public virtual DbSet<OpcionesEmpresa> OpcionesEmpresa { get; set; }
     }
 }
