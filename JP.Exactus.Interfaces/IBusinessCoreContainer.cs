@@ -9,5 +9,7 @@ namespace JP.Exactus.Interfaces
     public interface IBusinessCoreContainer : IDisposable
     {
         IEmpresasBusinessObject Empresas { get; }
+        IDispositivoBusinessObject Dispositivos { get; }
+
     }
 }

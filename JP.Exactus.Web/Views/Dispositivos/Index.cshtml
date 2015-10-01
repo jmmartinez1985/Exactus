@@ -1,0 +1,76 @@
+﻿@model IEnumerable<JP.Exactus.Data.ViewModel.DispositivoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDDispositivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IDEmpresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreDispositivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MACDispositivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaExpira)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioModifica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaModifica)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDDispositivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDEmpresa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreDispositivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MACDispositivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaExpira)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioModifica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaModifica)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

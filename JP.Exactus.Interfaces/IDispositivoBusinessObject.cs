@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JP.Exactus.Data.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace JP.Exactus.Interfaces
 {
     public interface IDispositivoBusinessObject
     {
-
+        IEnumerable<DispositivoViewModel> ListarDispositivos();
     }
 }

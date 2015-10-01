@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="BusinessCore.cs" />
     <Compile Include="BusinessCoreObject.cs" />
+    <Compile Include="DispositivoBusinessObject.cs" />
     <Compile Include="EmpresaBusinessObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
