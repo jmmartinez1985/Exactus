@@ -34,7 +34,7 @@ namespace JP.Exactus.Web.Controllers
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var dispositivo = core.Dispositivos.ObtenerDispotivoPorId(1);
+                var dispositivo = core.Dispositivos.ObtenerDispositivoPorId(1);
                 return View(dispositivo);
             }
         }
@@ -50,6 +50,7 @@ namespace JP.Exactus.Web.Controllers
                 using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
                 {
                     core.Dispositivos.GuardarDispositivo(model);
+
                     return RedirectToAction("Index");
                 }
 
