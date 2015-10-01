@@ -22,7 +22,12 @@ namespace JP.Exactus.Common
             {
                 // Mapeos de Catalogos.
                 Mapper.CreateMap<Empresa, EmpresasViewModel>();
-              
+                Mapper.CreateMap<Auditoria, AuditoriaViewModel>();
+                Mapper.CreateMap<Dispositivo, DispositivoViewModel>();
+                Mapper.CreateMap<Opciones, OpcionesViewModel>();
+                Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>();
+
+
 
                 _isConfigured = true;
             }

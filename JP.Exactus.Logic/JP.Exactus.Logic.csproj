@@ -63,6 +63,10 @@
       <Project>{16f6ed0f-9f22-4c7b-8d13-2afe67cfa30b}</Project>
       <Name>JP.Exactus.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JP.Exactus.Core.Service\JP.Exactus.Core.Service.csproj">
+      <Project>{9c630289-f550-4523-88a6-04d50060be96}</Project>
+      <Name>JP.Exactus.Core.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JP.Exactus.Data\JP.Exactus.Data.csproj">
       <Project>{1662fab8-505e-4a4b-a3a0-8f12f469b8e8}</Project>
       <Name>JP.Exactus.Data</Name>
