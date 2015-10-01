@@ -10,5 +10,9 @@ namespace JP.Exactus.Interfaces
     public interface IDispositivoBusinessObject
     {
         IEnumerable<DispositivoViewModel> ListarDispositivos();
+
+        DispositivoViewModel ObtenerDispositivoPorId(int id);
+
+        void GuardarDispositivo(DispositivoViewModel model);
     }
 }

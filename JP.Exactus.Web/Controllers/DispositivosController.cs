@@ -1,4 +1,5 @@
-﻿using JP.Exactus.Interfaces;
+﻿using JP.Exactus.Data.ViewModel;
+using JP.Exactus.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,26 +23,39 @@ namespace JP.Exactus.Web.Controllers
         // GET: Dispositivos/Details/5
         public ActionResult Details(int id)
         {
+
+            ///ViewBag.Empresas = 
+
             return View();
         }
 
         // GET: Dispositivos/Create
         public ActionResult Create()
         {
-            return View();
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var dispositivo = core.Dispositivos.ObtenerDispotivoPorId(1);
+                return View(dispositivo);
+            }
         }
 
         // POST: Dispositivos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(DispositivoViewModel model)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+                {
+                    core.Dispositivos.GuardarDispositivo(model);
+                    return RedirectToAction("Index");
+                }
+
+                
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

@@ -16,5 +16,8 @@ namespace JP.Exactus.Data.ViewModel
         public bool Activo { get; set; }
         public int UsuarioModifica { get; set; }
         public System.DateTime FechaModifica { get; set; }
+
+        public IEnumerable<AuditoriaViewModel> Auditoria { get; set; }
+        public  EmpresasViewModel Empresa { get; set; }
     }
 }

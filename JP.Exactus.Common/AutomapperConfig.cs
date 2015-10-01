@@ -23,7 +23,14 @@ namespace JP.Exactus.Common
                 // Mapeos de Catalogos.
                 Mapper.CreateMap<Empresa, EmpresasViewModel>();
                 Mapper.CreateMap<Auditoria, AuditoriaViewModel>();
-                Mapper.CreateMap<Dispositivo, DispositivoViewModel>();
+                Mapper.CreateMap<Dispositivo, DispositivoViewModel>()
+                    .ForMember(t => t.Empresa, opts => opts.Ignore())
+                    .ForMember(t => t.Auditoria, opts => opts.Ignore());
+
+                Mapper.CreateMap<DispositivoViewModel, Dispositivo>()
+                    .ForMember(t => t.Empresa, opts => opts.Ignore())
+                    .ForMember(t => t.Auditoria, opts => opts.Ignore());
+
                 Mapper.CreateMap<Opciones, OpcionesViewModel>();
                 Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>();
 
