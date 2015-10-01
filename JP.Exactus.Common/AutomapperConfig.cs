@@ -32,7 +32,8 @@ namespace JP.Exactus.Common
                     .ForMember(t => t.Auditoria, opts => opts.Ignore());
 
                 Mapper.CreateMap<Opciones, OpcionesViewModel>();
-                Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>();
+                Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>()
+                    .ForMember(t => t.Empresa, opts => opts.Ignore());
 
 
 

@@ -36,6 +36,7 @@ namespace JP.Exactus.Web
             _kernel.Bind<IBusinessCoreContainer>().To<BusinessCore>().WithConstructorArgument("dbContext", GetConstructorArgFromSession);
             _kernel.Bind<IEmpresasBusinessObject>().To<EmpresaBusinessObject>();
             _kernel.Bind<IDispositivoBusinessObject>().To<DispositivoBusinessObject>();
+            _kernel.Bind<IOpcionesEmpresaBusinessObject>().To<OpcionesEmpresaBusinessObject>();
 
         }
 

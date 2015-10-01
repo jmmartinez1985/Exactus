@@ -14,5 +14,7 @@ namespace JP.Exactus.Interfaces
         DispositivoViewModel ObtenerDispositivoPorId(int id);
 
         void GuardarDispositivo(DispositivoViewModel model);
+
+        DispositivoViewModel ObtenerDispositivoPorMAC(string mac);
     }
 }

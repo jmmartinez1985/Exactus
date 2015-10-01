@@ -63,6 +63,11 @@ namespace JP.Exactus.Logic
             get { return Get<DispositivoBusinessObject>(); }
         }
 
+        public IOpcionesEmpresaBusinessObject OpcionesEmpresa
+        {
+            get { return Get<OpcionesEmpresaBusinessObject>(); }
+        }
+
 
     }
 }

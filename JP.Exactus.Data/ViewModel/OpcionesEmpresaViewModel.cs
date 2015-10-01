@@ -13,7 +13,7 @@ namespace JP.Exactus.Data.ViewModel
         public int IDOpcion { get; set; }
         public bool Activo { get; set; }
 
-        public virtual Empresa Empresa { get; set; }
-        public virtual Opciones Opciones { get; set; }
+        public  EmpresasViewModel Empresa { get; set; }
+        public  OpcionesViewModel Opciones { get; set; }
     }
 }

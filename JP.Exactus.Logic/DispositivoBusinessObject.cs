@@ -43,5 +43,11 @@ namespace JP.Exactus.Logic
             var dispositivo = base.Context.Dispositivo.FirstOrDefault(c => c.IDDispositivo == id);
             return Mapper.Map<Dispositivo, DispositivoViewModel>(dispositivo);
         }
+
+        public DispositivoViewModel ObtenerDispositivoPorMAC(string mac)
+        {
+            var dispositivo = base.Context.Dispositivo.FirstOrDefault(c => c.MACDispositivo == mac);
+            return Mapper.Map<Dispositivo, DispositivoViewModel>(dispositivo);
+        }
     }
 }

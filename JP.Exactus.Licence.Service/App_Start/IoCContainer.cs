@@ -11,7 +11,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace JP.Exactus.Web
+namespace JP.Exactus.Licence.Service
 {
     public class IoCContainer
     {
@@ -35,6 +35,8 @@ namespace JP.Exactus.Web
             _kernel = new StandardKernel();
             _kernel.Bind<IBusinessCoreContainer>().To<BusinessCore>().WithConstructorArgument("dbContext", GetConstructorArgFromSession);
             _kernel.Bind<IEmpresasBusinessObject>().To<EmpresaBusinessObject>();
+            _kernel.Bind<IDispositivoBusinessObject>().To<DispositivoBusinessObject>();
+            _kernel.Bind<IOpcionesEmpresaBusinessObject>().To<OpcionesEmpresaBusinessObject>();
 
         }
 

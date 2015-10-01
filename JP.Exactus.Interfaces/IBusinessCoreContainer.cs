@@ -11,5 +11,6 @@ namespace JP.Exactus.Interfaces
         IEmpresasBusinessObject Empresas { get; }
         IDispositivoBusinessObject Dispositivos { get; }
 
+        IOpcionesEmpresaBusinessObject OpcionesEmpresa { get; }
     }
 }

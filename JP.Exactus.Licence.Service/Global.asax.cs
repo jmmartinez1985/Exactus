@@ -1,5 +1,4 @@
 ﻿using JP.Exactus.Common;
-using JP.Exactus.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +25,9 @@ namespace JP.Exactus.Licence.Service
 
             //Enlaza las instancias de los servicios a las interfaces usando Ninject.
             IoCContainer.Bind();
+
+            var configuration = GlobalConfiguration.Configuration;
+            configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
         }
     }
 }
