@@ -47,6 +47,10 @@ namespace JP.Exactus.Logic
         public DispositivoViewModel ObtenerDispositivoPorMAC(string mac)
         {
             var dispositivo = base.Context.Dispositivo.FirstOrDefault(c => c.MACDispositivo == mac);
+            if (dispositivo == null)
+            {
+                throw new Exception("El dispositivo no esta registrado o no esta vinculado a una empresa.");
+            }
             return Mapper.Map<Dispositivo, DispositivoViewModel>(dispositivo);
         }
     }
