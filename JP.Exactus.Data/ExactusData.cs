@@ -9,9 +9,18 @@ namespace JP.Exactus.Data
 {
     public class ExactusData
     {
+        private string user;
+        private string password;
+
+        public ExactusData() { }
+
+        public ExactusData(string User, string Pass) {
+            this.user = User;
+            this.password = Pass;
+        }
 
         public static void GuardarPedido() {
-            Database db = DatabaseFactory.CreateDatabase("MoneyBackConnectionString");
+            Database db = DatabaseFactory.CreateDatabase("ExactusConnection");
 
         }
     }
