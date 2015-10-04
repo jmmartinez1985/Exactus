@@ -18,6 +18,12 @@ namespace JP.Exactus.Core.Service
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Enlaza las instancias de los servicios a las interfaces usando Ninject.
+            IoCContainer.Bind();
+
+            var configuration = GlobalConfiguration.Configuration;
+            configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
         }
     }
 }
