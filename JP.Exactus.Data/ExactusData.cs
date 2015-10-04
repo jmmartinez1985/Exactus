@@ -1,6 +1,10 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+﻿using JP.Exactus.Data.Helpers;
+using JP.Exactus.Data.ViewModelExactus;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +25,26 @@ namespace JP.Exactus.Data
             this.schema = Schema;
         }
 
-        public void RetornarBodega(string schema, string usuario) /*Muestra todas las Bodegas que tiene permiso el usuario para seleccionar en el sistema de pedidos*/
+        public List<BodegaViewModel> RetornarBodega() /*Muestra todas las Bodegas que tiene permiso el usuario para seleccionar en el sistema de pedidos*/
         {
-            //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
             Database db = factory.Create("ExactusConnection");
-            dynamic result =db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT A.BODEGA,B.NOMBRE FROM {schema}.USUARIO_BODEGA A, BREMEN.BODEGA B WHERE A.BODEGA = B.BODEGA AND A.USUARIO= {usuario} ORDER BY A.BODEGA ASC");
+            SqlDataReader reader;
+            reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, $"SELECT A.BODEGA,B.NOMBRE FROM {this.schema}.USUARIO_BODEGA A, BREMEN.BODEGA B WHERE A.BODEGA = B.BODEGA AND A.USUARIO= '{this.user}' ORDER BY A.BODEGA ASC")).InnerReader as SqlDataReader;
+            dynamic dynreader = (DynamicDataReader)reader;
+            var bodegaList = new List<BodegaViewModel>();
+            while (dynreader.Read())
+            {
+                BodegaViewModel model = new BodegaViewModel()
+                {
+                    Bodega = dynreader.BODEGA,
+                    Nombre = dynreader.NOMBRE
+                };
+                bodegaList.Add(model);
+            }
+            dynreader.Close();
+            reader.Close();
+            return bodegaList;
         }
 
         /*Busca todos los cliente que tengan el nombre parecido a la variable Nombre*/

@@ -69,6 +69,7 @@
       <DependentUpon>LicenciaDbCoreEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ExactusData.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="LicenciaCoreDBEntities.cs" />
     <Compile Include="LicenciaDbCoreEntity.Context.cs">
       <AutoGen>True</AutoGen>

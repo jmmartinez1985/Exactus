@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JP.Exactus.Logic", "JP.Exac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JP.Exactus.Data", "JP.Exactus.Data\JP.Exactus.Data.csproj", "{1662FAB8-505E-4A4B-A3A0-8F12F469B8E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExactusTest", "ExactusTest\ExactusTest.csproj", "{92B689F3-BA9A-41CC-A6D5-28D24C8BA135}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1662FAB8-505E-4A4B-A3A0-8F12F469B8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1662FAB8-505E-4A4B-A3A0-8F12F469B8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1662FAB8-505E-4A4B-A3A0-8F12F469B8E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92B689F3-BA9A-41CC-A6D5-28D24C8BA135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92B689F3-BA9A-41CC-A6D5-28D24C8BA135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92B689F3-BA9A-41CC-A6D5-28D24C8BA135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92B689F3-BA9A-41CC-A6D5-28D24C8BA135}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

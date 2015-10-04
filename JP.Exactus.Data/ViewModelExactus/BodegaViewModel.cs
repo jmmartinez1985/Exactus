@@ -10,7 +10,7 @@ namespace JP.Exactus.Data.ViewModelExactus
     {
 
         public String Bodega { get; set; }
-        public String NOMBRE { get; set; }
+        public String Nombre { get; set; }
 
     }
 }
