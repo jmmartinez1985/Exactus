@@ -5,17 +5,15 @@ using JP.Exactus.Data;
 namespace ExactusTest
 {
     [TestClass]
-    public class UnitTest1
+    public class ExactusUnitTest
     {
 
-
-
-
         [TestMethod]
-        public void TestMethod1()
+        public void RetornaBodega()
         {
             ExactusData exactus = new ExactusData("jperez", "*", "bremen");
             var result = exactus.RetornarBodega();
+            Assert.IsNotNull(result);
         }
     }
 }

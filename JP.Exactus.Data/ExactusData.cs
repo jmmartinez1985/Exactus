@@ -27,14 +27,20 @@ namespace JP.Exactus.Data
 
         public List<BodegaViewModel> RetornarBodega() /*Muestra todas las Bodegas que tiene permiso el usuario para seleccionar en el sistema de pedidos*/
         {
+            //Crea proveedor para la conexion
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
+            //Crea el objeto conexion con Enterprise Library
             Database db = factory.Create("ExactusConnection");
             SqlDataReader reader;
+            //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
             reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, $"SELECT A.BODEGA,B.NOMBRE FROM {this.schema}.USUARIO_BODEGA A, BREMEN.BODEGA B WHERE A.BODEGA = B.BODEGA AND A.USUARIO= '{this.user}' ORDER BY A.BODEGA ASC")).InnerReader as SqlDataReader;
+            //Se transforma al dynamic reader para acceder por nombre y evitar los casting entre tipo y los GET...
             dynamic dynreader = (DynamicDataReader)reader;
             var bodegaList = new List<BodegaViewModel>();
+            //Se le el reader
             while (dynreader.Read())
             {
+                //Se crea objeto bodega para pasarlo a la Lista
                 BodegaViewModel model = new BodegaViewModel()
                 {
                     Bodega = dynreader.BODEGA,
