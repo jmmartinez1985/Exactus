@@ -10,5 +10,11 @@ namespace JP.Exactus.Interfaces
     public interface IOpcionesEmpresaBusinessObject
     {
         IEnumerable<OpcionesEmpresaViewModel> ObtenerOpcionesEmpresa(int idEmpresa);
+
+        IEnumerable<OpcionesEmpresaViewModel> ListarOpcionesEmpresa();
+
+        void GuardarOpcionesEmpresa(OpcionesEmpresaViewModel model);
+        
+
     }
 }

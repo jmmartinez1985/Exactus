@@ -12,7 +12,7 @@ namespace JP.Exactus.Logic
 {
     public class DispositivoBusinessObject : BusinessCoreObject, IDispositivoBusinessObject
     {
-        public async void GuardarDispositivo(DispositivoViewModel model)
+        public void GuardarDispositivo(DispositivoViewModel model)
         {
 
             var registroExiste = base.Context.Dispositivo.Find(model.IDDispositivo);
@@ -28,7 +28,7 @@ namespace JP.Exactus.Logic
                 base.Context.Entry(registroExiste).State = System.Data.Entity.EntityState.Modified;
 
             }
-            await base.Context.SaveChangesAsync();
+            base.Context.SaveChanges();
 
         }
 

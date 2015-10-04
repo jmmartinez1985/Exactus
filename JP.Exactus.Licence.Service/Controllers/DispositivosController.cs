@@ -16,7 +16,7 @@ namespace JP.Exactus.Licence.Service.Controllers
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
                 var dispositivo = core.Dispositivos.ObtenerDispositivoPorMAC(mac);
-                var empresa = core.Empresas.obtenerDetalleEmpresa(dispositivo.IDEmpresa);
+                var empresa = core.Empresas.obtenerEmpresaPorId(dispositivo.IDEmpresa);
                 var opciones = core.OpcionesEmpresa.ObtenerOpcionesEmpresa(dispositivo.IDEmpresa).
                     Select(c => new { id = c.IDOpcion ,opcion = c.Opciones.DescripcionOpcion });
                 return new
