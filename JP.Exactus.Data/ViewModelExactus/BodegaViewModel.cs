@@ -8,8 +8,9 @@ namespace JP.Exactus.Data.ViewModelExactus
 {
     public class BodegaViewModel
     {
-        string BODEGA;
-        string NOMBRE;
+
+        public String Bodega { get; set; }
+        public String NOMBRE { get; set; }
 
     }
 }
