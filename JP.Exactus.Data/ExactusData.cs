@@ -35,7 +35,7 @@ namespace JP.Exactus.Data
             //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
             Database db = factory.Create("ExactusConnection");
-            dynamic result =db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT A.CLIENTE,A.NOMBRE,A.CONTRIBUYENTE, A.ALIAS, A.SALDO, A.LIMITE_CREDITO, B.DESCRIPCION CATEGORIA_CLIENTE, A.NIVEL_PRECIO,A.CONDICION_PAGO, (SELECT MAX(VERSION) VERSION FROM {schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = A.NIVEL_PRECIO) VERSION_PRECIO FROM {schema}.CLIENTE A, {schema}.CATEGORIA_CLIENTE B WHERE  NOMBRE LIKE '% {Nombre} %' AND A.CATEGORIA_CLIENTE = B.CATEGORIA_CLIENTE AND ACTIVO = 'S' ORDER BY A.NOMBRE");
+            dynamic result =db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT A.CLIENTE,A.NOMBRE,A.CONTRIBUYENTE, A.ALIAS, A.SALDO, A.LIMITE_CREDITO, B.DESCRIPCION CATEGORIA_CLIENTE, A.NIVEL_PRECIO,A.CONDICION_PAGO, (SELECT MAX(VERSION) VERSION FROM {schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = A.NIVEL_PRECIO) VERSION_PRECIO, A.EXENTO_IMPUESTOS FROM {schema}.CLIENTE A, {schema}.CATEGORIA_CLIENTE B WHERE  NOMBRE LIKE '% {Nombre} %' AND A.CATEGORIA_CLIENTE = B.CATEGORIA_CLIENTE AND ACTIVO = 'S' ORDER BY A.NOMBRE");
         }
 
         public void RetornarClientePorRuc(string schema,string RucCedula)
@@ -43,7 +43,7 @@ namespace JP.Exactus.Data
             //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
             Database db = factory.Create("ExactusConnection");
-            dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT A.CLIENTE,A.NOMBRE,A.CONTRIBUYENTE, A.ALIAS, A.SALDO, A.LIMITE_CREDITO, B.DESCRIPCION CATEGORIA_CLIENTE, A.NIVEL_PRECIO,A.CONDICION_PAGO,(SELECT MAX(VERSION) VERSION FROM {schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = A.NIVEL_PRECIO) VERSION_PRECIO FROM {schema}.CLIENTE A, {schema}.CATEGORIA_CLIENTE B WHERE  NOMBRE LIKE '% {RucCedula} %' AND A.CATEGORIA_CLIENTE = B.CATEGORIA_CLIENTE AND ACTIVO = 'S' ORDER BY A.NOMBRE");
+            dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT A.CLIENTE,A.NOMBRE,A.CONTRIBUYENTE, A.ALIAS, A.SALDO, A.LIMITE_CREDITO, B.DESCRIPCION CATEGORIA_CLIENTE, A.NIVEL_PRECIO,A.CONDICION_PAGO,(SELECT MAX(VERSION) VERSION FROM {schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = A.NIVEL_PRECIO) VERSION_PRECIO, A.EXENTO_IMPUESTOS FROM {schema}.CLIENTE A, {schema}.CATEGORIA_CLIENTE B WHERE  NOMBRE LIKE '% {RucCedula} %' AND A.CATEGORIA_CLIENTE = B.CATEGORIA_CLIENTE AND ACTIVO = 'S' ORDER BY A.NOMBRE");
         }
 
         
@@ -54,7 +54,7 @@ namespace JP.Exactus.Data
             DatabaseProviderFactory factory = new DatabaseProviderFactory();
             Database db = factory.Create("ExactusConnection");
             string sqlcomando="";
-            sqlcomando = $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,CONVERT(CHAR,CONVERT(INT,(EB.CANT_DISPONIBLE))) Disponible, (SELECT PRECIO FROM {schema}.ARTICULO_PRECIO WHERE VERSION = {version_precio} AND NIVEL_PRECIO = {nivel_precio}  AND ARTICULO = AR.ARTICULO) PRECIO ";
+            sqlcomando = $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,CONVERT(CHAR,CONVERT(INT,(EB.CANT_DISPONIBLE))) Disponible, (SELECT PRECIO FROM {schema}.ARTICULO_PRECIO WHERE VERSION = {version_precio} AND NIVEL_PRECIO = {nivel_precio}  AND ARTICULO = AR.ARTICULO) PRECIO, AR.IMPUESTO ";
             sqlcomando = sqlcomando + $" FROM {schema}.ARTICULO AR, {schema}.EXISTENCIA_BODEGA EB ";
             sqlcomando = sqlcomando + " WHERE AR.ARTICULO = EB.ARTICULO AND AR.ACTIVO = 'S' ";
             sqlcomando = sqlcomando + $" AND BODEGA = {bodega}";
@@ -104,6 +104,10 @@ namespace JP.Exactus.Data
             Database db = factory.Create("ExactusConnection");
             dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT CLASIFICACION, DESCRIPCION FROM {schema}.CLASIFICACION WHERE AGRUPACION = {agrupacion}");
         }
+
+
+
+
 
 
     }

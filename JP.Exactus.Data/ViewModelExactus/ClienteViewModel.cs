@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JP.Exactus.Data.ViewModelExactus
 {
-    class ClienteViewModel
+    public class ClienteViewModel
     {
         string CLIENTE;
         string NOMBRE;
@@ -18,5 +18,6 @@ namespace JP.Exactus.Data.ViewModelExactus
         string NIVEL_PRECIO;
         int CONDICION_PAGO;
         int VERSION_PRECIO;
+        string EXENTO_IMPUESTOS; /*Si es Exento Valor es S de lo contrario N*/
     }
 }

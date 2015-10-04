@@ -96,6 +96,7 @@
     <Compile Include="ViewModelExactus\BodegaViewModel.cs" />
     <Compile Include="ViewModelExactus\ClasificacionViewModel.cs" />
     <Compile Include="ViewModelExactus\ClienteViewModel.cs" />
+    <Compile Include="ViewModelExactus\ImpuestoViewModel.cs" />
     <Compile Include="ViewModel\AuditoriaViewModel.cs" />
     <Compile Include="ViewModel\DispositivoViewModel.cs" />
     <Compile Include="ViewModel\EmpresasViewModel.cs" />

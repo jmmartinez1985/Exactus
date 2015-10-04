@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace JP.Exactus.Data.ViewModelExactus
 {
-    public class ClasificacionViewModel
+    public class ImpuestoViewModel
     {
-        string CLASIFICACION;
-        string DESCRIPCION;
+       int IMPUESTO;
+       string  DESCRIPCION;
+       decimal IMPUESTO1;
+       decimal IMPUESTO2;
+
     }
 }
