@@ -97,7 +97,13 @@ namespace JP.Exactus.Data
             
         }
 
-
+        public void RetornarClasificacion(string schema, string agrupacion)
+        {
+            //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
+            DatabaseProviderFactory factory = new DatabaseProviderFactory();
+            Database db = factory.Create("ExactusConnection");
+            dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT CLASIFICACION, DESCRIPCION FROM {schema}.CLASIFICACION WHERE AGRUPACION = {agrupacion}");
+        }
 
 
     }
