@@ -20,7 +20,8 @@ namespace JP.Exactus.Logic
         {
 
             var exactus = new ExactusData(usuario, contraseña, Schema);
-            exactus.GuardarPedido(Schema);
+            /*exactus.GuardarPedido(Schema);*/
+
             return null;
         }
     }

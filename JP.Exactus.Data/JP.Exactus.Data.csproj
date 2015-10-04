@@ -92,15 +92,15 @@
       <DependentUpon>LicenciaDbCoreEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelExactus\BodegaViewModel.cs" />
+    <Compile Include="ViewModelExactus\ClienteViewModel.cs" />
     <Compile Include="ViewModel\AuditoriaViewModel.cs" />
     <Compile Include="ViewModel\DispositivoViewModel.cs" />
     <Compile Include="ViewModel\EmpresasViewModel.cs" />
     <Compile Include="ViewModel\OpcionesEmpresaViewModel.cs" />
     <Compile Include="ViewModel\OpcionesViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModelExactus\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EntityDeploy Include="LicenciaDbCoreEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
