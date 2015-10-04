@@ -109,11 +109,21 @@ namespace JP.Exactus.Data
             Database db = factory.Create("ExactusConnection");
             dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT CLASIFICACION, DESCRIPCION FROM {schema}.CLASIFICACION WHERE AGRUPACION = {agrupacion}");
         }
+        /*Consecutivo es el Esquema Maestro para Facturas, Pedidos, Devoluciones, Etc */
+        public void BuscarConsecutivo(string schema, string usuario)
+        {
+            //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
+            DatabaseProviderFactory factory = new DatabaseProviderFactory();
+            Database db = factory.Create("ExactusConnection");
+            dynamic result = db.ExecuteDataSet(System.Data.CommandType.Text, $"SELECT  B.CODIGO_CONSECUTIVO, B.DESCRIPCION FROM {schema}.CONSECUFA_USUARIO A, {schema}.CONSECUTIVO_FA B WHERE A.CODIGO_CONSECUTIVO = B.CODIGO_CONSECUTIVO AND USUARIO = {usuario} ORDER BY B.CODIGO_CONSECUTIVO");
+        }
 
 
 
 
 
 
+
+        
     }
 }
