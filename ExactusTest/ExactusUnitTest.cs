@@ -22,7 +22,7 @@ namespace ExactusTest
         public void ObtenerUsuario() {
 
             IExactusBusinessObject exac = new  ExactusBusinessObject();
-            exac.obtenerUsuario("jperezz", "japerez");
+            exac.ValidaUsuario("jperezz", "japerez");
 
         }
     }

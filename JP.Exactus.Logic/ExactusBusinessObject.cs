@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JP.Exactus.Data;
+using JP.Exactus.Data.ViewModelExactus;
 
 namespace JP.Exactus.Logic
 {
@@ -16,12 +17,16 @@ namespace JP.Exactus.Logic
             get { return System.Configuration.ConfigurationManager.AppSettings["schema"].ToString(); }
         }
        
-        public bool obtenerUsuario(string usuario, string contraseña)
+        public bool ValidaUsuario(string usuario, string contraseña)
         {
-
             var exactus = new ExactusData(usuario, contraseña, Schema);
-            /*exactus.GuardarPedido(Schema);*/
             return exactus.ValidaUsuario();
+        }
+
+        public List<BodegaViewModel> ObtenerBodega(string usuario, string contraseña)
+        {
+            var exactus = new ExactusData(usuario, contraseña, Schema);
+            return exactus.ObtenerBodega();
         }
     }
 }
