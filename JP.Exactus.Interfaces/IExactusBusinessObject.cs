@@ -8,6 +8,6 @@ namespace JP.Exactus.Interfaces
 {
     public interface IExactusBusinessObject
     {
-        dynamic obtenerUsuario(string usuario, string contraseña);
+        bool obtenerUsuario(string usuario, string contraseña);
     }
 }

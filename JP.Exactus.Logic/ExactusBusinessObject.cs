@@ -16,13 +16,12 @@ namespace JP.Exactus.Logic
             get { return System.Configuration.ConfigurationManager.AppSettings["schema"].ToString(); }
         }
        
-        public dynamic obtenerUsuario(string usuario, string contraseña)
+        public bool obtenerUsuario(string usuario, string contraseña)
         {
 
             var exactus = new ExactusData(usuario, contraseña, Schema);
             /*exactus.GuardarPedido(Schema);*/
-
-            return null;
+            return exactus.ValidaUsuario();
         }
     }
 }

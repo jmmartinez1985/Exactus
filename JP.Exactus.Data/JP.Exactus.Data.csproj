@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -105,7 +106,9 @@
     <Compile Include="ViewModel\OpcionesEmpresaViewModel.cs" />
     <Compile Include="ViewModel\OpcionesViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="LicenciaDbCoreEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

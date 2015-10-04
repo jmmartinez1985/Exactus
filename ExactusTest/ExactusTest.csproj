@@ -58,6 +58,14 @@
       <Project>{1662fab8-505e-4a4b-a3a0-8f12f469b8e8}</Project>
       <Name>JP.Exactus.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JP.Exactus.Interfaces\JP.Exactus.Interfaces.csproj">
+      <Project>{bfa786be-fe05-471b-b2f5-9592a4b9680c}</Project>
+      <Name>JP.Exactus.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JP.Exactus.Logic\JP.Exactus.Logic.csproj">
+      <Project>{eeb42d70-fb60-4e96-8dec-3f6888c0cdcb}</Project>
+      <Name>JP.Exactus.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
