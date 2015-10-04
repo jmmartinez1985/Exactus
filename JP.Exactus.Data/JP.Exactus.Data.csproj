@@ -98,7 +98,9 @@
     <Compile Include="ViewModel\OpcionesEmpresaViewModel.cs" />
     <Compile Include="ViewModel\OpcionesViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModelExactus\" />
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="LicenciaDbCoreEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
