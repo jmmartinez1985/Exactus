@@ -11,14 +11,28 @@ namespace JP.Exactus.Core.Service.Controllers
     public class ExactusController : ApiController
     {
         [HttpGet]
-        public dynamic obtenerUsuario(string usuario, string password)
+        [Route("api/Exactus/ValidaUsuario")]
+        public dynamic ValidaUsuario(string usuario, string password)
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                core.Exactus.obtenerUsuario(usuario, password);
+                var success = core.Exactus.ValidaUsuario(usuario, password);
+                return new { resultado = "OK", existe = success };
             }
-            return new { resultado = "OK" };
+            
         }
+
+        [HttpGet]
+        [Route("api/Exactus/ObtenerBodega")]
+        public dynamic ObtenerBodega(string usuario, string password)
+        {
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+               var bodegasList =core.Exactus.ObtenerBodega(usuario,password);
+               return new { resultado = "OK", bodegas = bodegasList };
+            }
+        }
+
 
     }
 }

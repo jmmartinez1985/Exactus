@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -69,6 +70,7 @@
       <DependentUpon>LicenciaDbCoreEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ExactusData.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="LicenciaCoreDBEntities.cs" />
     <Compile Include="LicenciaDbCoreEntity.Context.cs">
       <AutoGen>True</AutoGen>
@@ -96,13 +98,17 @@
     <Compile Include="ViewModelExactus\BodegaViewModel.cs" />
     <Compile Include="ViewModelExactus\ClasificacionViewModel.cs" />
     <Compile Include="ViewModelExactus\ClienteViewModel.cs" />
+    <Compile Include="ViewModelExactus\ConsecutivosViewModel.cs" />
+    <Compile Include="ViewModelExactus\ImpuestoViewModel.cs" />
     <Compile Include="ViewModel\AuditoriaViewModel.cs" />
     <Compile Include="ViewModel\DispositivoViewModel.cs" />
     <Compile Include="ViewModel\EmpresasViewModel.cs" />
     <Compile Include="ViewModel\OpcionesEmpresaViewModel.cs" />
     <Compile Include="ViewModel\OpcionesViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="LicenciaDbCoreEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

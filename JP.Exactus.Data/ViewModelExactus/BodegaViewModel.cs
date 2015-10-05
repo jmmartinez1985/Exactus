@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace JP.Exactus.Data.ViewModelExactus
 {
-    class BodegaViewModel
+    public class BodegaViewModel
     {
-        string BODEGA;
-        string NOMBRE;
+
+        public String Bodega { get; set; }
+        public String Nombre { get; set; }
 
     }
 }

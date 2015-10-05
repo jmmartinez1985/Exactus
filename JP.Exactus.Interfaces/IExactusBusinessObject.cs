@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JP.Exactus.Data.ViewModelExactus;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace JP.Exactus.Interfaces
 {
     public interface IExactusBusinessObject
     {
-        dynamic obtenerUsuario(string usuario, string contraseña);
+        bool ValidaUsuario(string usuario, string contraseña);
+        List<BodegaViewModel> ObtenerBodega(string usuario, string contraseña);
     }
 }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace JP.Exactus.Data.ViewModelExactus
 {
-    public class ClasificacionViewModel
+    class ConsecutivosViewModel
     {
-        string CLASIFICACION;
+        string CODIGO_CONSECUTIVO;
         string DESCRIPCION;
     }
 }
