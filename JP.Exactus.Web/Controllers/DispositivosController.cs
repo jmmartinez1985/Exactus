@@ -23,20 +23,17 @@ namespace JP.Exactus.Web.Controllers
         // GET: Dispositivos/Details/5
         public ActionResult Details(int id)
         {
-
-            ///ViewBag.Empresas = 
-
-            return View();
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var dispositivo = core.Dispositivos.ObtenerDispositivoPorId(id);
+                return View(dispositivo);
+            }
         }
 
         // GET: Dispositivos/Create
         public ActionResult Create()
         {
-            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
-            {
-                var dispositivo = core.Dispositivos.ObtenerDispositivoPorId(1);
-                return View(dispositivo);
-            }
+            return View();
         }
 
         // POST: Dispositivos/Create
@@ -46,17 +43,13 @@ namespace JP.Exactus.Web.Controllers
             try
             {
                 // TODO: Add insert logic here
-
                 using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
                 {
                     core.Dispositivos.GuardarDispositivo(model);
-
                     return RedirectToAction("Index");
-                }
-
-                
+                }                
             }
-            catch (Exception ex)
+            catch 
             {
                 return View();
             }
@@ -65,20 +58,28 @@ namespace JP.Exactus.Web.Controllers
         // GET: Dispositivos/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var dispositivo = core.Dispositivos.ObtenerDispositivoPorId(id);
+                return View(dispositivo);
+            }
         }
 
         // POST: Dispositivos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(DispositivoViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                model.FechaExpira = DateTime.Now;
+                model.UsuarioModifica = 1; // ToDo: Asignarle el usuario que está haciendo el cambio
+                using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+                {
+                    core.Dispositivos.GuardarDispositivo(model);
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch 
             {
                 return View();
             }

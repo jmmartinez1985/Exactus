@@ -48,7 +48,7 @@ namespace JP.Exactus.Logic
             T t = Activator.CreateInstance<T>();
             if (_dbContext != null)
             {
-                (t as BusinessCoreObject).Context = _dbContext;
+            (t as BusinessCoreObject).Context = _dbContext;
             }
             _instanceHolder.Add(type, t);
 
@@ -59,7 +59,7 @@ namespace JP.Exactus.Logic
         {
             _instanceHolder.Clear();
             if (_dbContext != null)
-                _dbContext.Dispose();
+            _dbContext.Dispose();
         }
 
         public IEmpresasBusinessObject Empresas
@@ -82,5 +82,9 @@ namespace JP.Exactus.Logic
             get { return Get<ExactusBusinessObject>(); }
         }
 
+        public IOpcionesBusinessObject Opciones
+        {
+            get { return Get<OpcionesBusinessObject>(); }
+        }
     }
 }

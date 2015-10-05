@@ -9,6 +9,10 @@ namespace JP.Exactus.Interfaces
 {
     public interface IEmpresasBusinessObject
     {
-        EmpresasViewModel obtenerDetalleEmpresa(int empresaId);
+        IEnumerable<EmpresasViewModel> ListarEmpresas();
+        
+        void GuardarEmpresa(EmpresasViewModel model);
+
+        EmpresasViewModel obtenerEmpresaPorId(int empresaId);
     }
 }

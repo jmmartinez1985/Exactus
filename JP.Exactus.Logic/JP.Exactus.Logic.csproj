@@ -59,6 +59,7 @@
     <Compile Include="DispositivoBusinessObject.cs" />
     <Compile Include="EmpresaBusinessObject.cs" />
     <Compile Include="ExactusBusinessObject.cs" />
+    <Compile Include="OpcionesBusinessObject.cs" />
     <Compile Include="OpcionesEmpresaBusinessObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

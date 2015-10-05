@@ -17,5 +17,32 @@ namespace JP.Exactus.Logic
             var opciones = base.Context.OpcionesEmpresa.Where(c => c.IDEmpresa == idEmpresa).ToList();
             return Mapper.Map<List<OpcionesEmpresa>, List<OpcionesEmpresaViewModel>>(opciones);
         }
+
+        public void GuardarOpcionesEmpresa(OpcionesEmpresaViewModel model)
+        {
+
+            var registroExiste = base.Context.OpcionesEmpresa.Find(model.IDOpcionEmpresa);
+            if (registroExiste == null)
+            {
+                var OpcionesEmp = base.Context.OpcionesEmpresa.Create();
+                Mapper.Map<OpcionesEmpresaViewModel, OpcionesEmpresa>(model, OpcionesEmp);
+                base.Context.OpcionesEmpresa.Add(OpcionesEmp);
+            }
+            else
+            {
+                Mapper.Map<OpcionesEmpresaViewModel, OpcionesEmpresa>(model, registroExiste);
+                base.Context.Entry(registroExiste).State = System.Data.Entity.EntityState.Modified;
+
+            }
+            base.Context.SaveChanges();
+
+        }
+
+        public IEnumerable<OpcionesEmpresaViewModel> ListarOpcionesEmpresa()
+        {
+            var OpcionesEmpresaList = base.Context.OpcionesEmpresa.ToList();
+            return Mapper.Map<List<OpcionesEmpresa>, List<OpcionesEmpresaViewModel>>(OpcionesEmpresaList);
+        }
+
     }
 }
