@@ -8,7 +8,7 @@ namespace JP.Exactus.Data.ViewModelExactus
 {
     public class ClasificacionViewModel
     {
-        string CLASIFICACION;
-        string DESCRIPCION;
+       public String CLASIFICACION { get; set; }
+        public String DESCRIPCION { get; set; }
     }
 }

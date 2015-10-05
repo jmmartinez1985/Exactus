@@ -94,7 +94,7 @@
       <DependentUpon>LicenciaDbCoreEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModelExactus\ArticuloViewModelcs.cs" />
+    <Compile Include="ViewModelExactus\ArticuloViewModel.cs" />
     <Compile Include="ViewModelExactus\BodegaViewModel.cs" />
     <Compile Include="ViewModelExactus\ClasificacionViewModel.cs" />
     <Compile Include="ViewModelExactus\ClienteViewModel.cs" />

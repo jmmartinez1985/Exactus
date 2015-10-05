@@ -8,16 +8,16 @@ namespace JP.Exactus.Data.ViewModelExactus
 {
     public class ClienteViewModel
     {
-        string CLIENTE;
-        string NOMBRE;
-        string CONTRIBUYENTE;
-        string ALIAS;
-        decimal SALDO;
-        decimal LIMITE_CREDITO;
-        string CATEGORIA_CLIENTE;
-        string NIVEL_PRECIO;
-        int CONDICION_PAGO;
-        int VERSION_PRECIO;
-        string EXENTO_IMPUESTOS; /*Si es Exento Valor es S de lo contrario N*/
+       public String  CLIENTE { get; set; }
+        public String NOMBRE { get; set; }
+        public String CONTRIBUYENTE { get; set; }
+        public String ALIAS { get; set; }
+        public Decimal SALDO { get; set; }
+        public Decimal LIMITE_CREDITO { get; set; }
+        public String CATEGORIA_CLIENTE { get; set; }
+        public String NIVEL_PRECIO { get; set; }
+        public Int32 CONDICION_PAGO { get; set; }
+        public Int32 VERSION_PRECIO { get; set; }
+        public String EXENTO_IMPUESTOS { get; set; } /*Si es Exento Valor es S de lo contrario N*/
     }
 }

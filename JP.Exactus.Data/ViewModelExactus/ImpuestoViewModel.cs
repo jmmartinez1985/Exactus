@@ -8,10 +8,10 @@ namespace JP.Exactus.Data.ViewModelExactus
 {
     public class ImpuestoViewModel
     {
-       int IMPUESTO;
-       string  DESCRIPCION;
-       decimal IMPUESTO1;
-       decimal IMPUESTO2;
+      public Int32 IMPUESTO { get; set; }
+      public String DESCRIPCION { get; set; }
+       public Decimal IMPUESTO1 { get; set; }
+       public Decimal IMPUESTO2 { get; set; }
 
     }
 }
