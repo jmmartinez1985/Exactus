@@ -26,6 +26,11 @@ namespace JP.Exactus.Logic
             _instanceHolder = new Dictionary<Type, object>();
         }
 
+        public BusinessCore()
+        {
+            _instanceHolder = new Dictionary<Type, object>();
+        }
+
         /// <summary>
         /// Obtiene una de las clases del servicio y le asigna el context para que lo utiliza.
         /// Para no instanciar todas las clases de servicios, se instancia cuando se accede la propiedad.
@@ -41,7 +46,10 @@ namespace JP.Exactus.Logic
             }
 
             T t = Activator.CreateInstance<T>();
+            if (_dbContext != null)
+            {
             (t as BusinessCoreObject).Context = _dbContext;
+            }
             _instanceHolder.Add(type, t);
 
             return t;
@@ -50,6 +58,7 @@ namespace JP.Exactus.Logic
         public void Dispose()
         {
             _instanceHolder.Clear();
+            if (_dbContext != null)
             _dbContext.Dispose();
         }
 
@@ -66,6 +75,11 @@ namespace JP.Exactus.Logic
         public IOpcionesEmpresaBusinessObject OpcionesEmpresa
         {
             get { return Get<OpcionesEmpresaBusinessObject>(); }
+        }
+
+        public IExactusBusinessObject Exactus
+        {
+            get { return Get<ExactusBusinessObject>(); }
         }
 
         public IOpcionesBusinessObject Opciones

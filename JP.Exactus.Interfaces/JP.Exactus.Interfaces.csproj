@@ -43,6 +43,7 @@
     <Compile Include="IBusinessCoreContainer.cs" />
     <Compile Include="IDispositivoBusinessObject.cs" />
     <Compile Include="IEmpresasBusinessObject.cs" />
+    <Compile Include="IExactusBusinessObject.cs" />
     <Compile Include="IOpcionesBusinessObject.cs" />
     <Compile Include="IOpcionesEmpresaBusinessObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

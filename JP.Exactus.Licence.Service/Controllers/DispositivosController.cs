@@ -18,7 +18,7 @@ namespace JP.Exactus.Licence.Service.Controllers
                 var dispositivo = core.Dispositivos.ObtenerDispositivoPorMAC(mac);
                 var empresa = core.Empresas.obtenerEmpresaPorId(dispositivo.IDEmpresa);
                 var opciones = core.OpcionesEmpresa.ObtenerOpcionesEmpresa(dispositivo.IDEmpresa).
-                    Select(c => new { id = c.IDOpcion ,opcion = c.Opciones.DescripcionOpcion });
+                    Select(c => new { Id = c.IDOpcion ,Opcion = c.Opciones.DescripcionOpcion });
                 return new
                 {
                     dispositivo = dispositivo,
