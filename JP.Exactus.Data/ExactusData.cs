@@ -66,7 +66,7 @@ namespace JP.Exactus.Data
 
             SqlDataReader reader;
             //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
-            reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, $"SELECT A.BODEGA,B.NOMBRE FROM {this.schema}.USUARIO_BODEGA A, BREMEN.BODEGA B WHERE A.BODEGA = B.BODEGA AND A.USUARIO= '{this.user}' ORDER BY A.BODEGA ASC")).InnerReader as SqlDataReader;
+            reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, $"SELECT A.BODEGA,B.NOMBRE FROM {this.schema}.USUARIO_BODEGA A, {this.schema}.BODEGA B WHERE A.BODEGA = B.BODEGA AND A.USUARIO= '{this.user}' ORDER BY A.BODEGA ASC")).InnerReader as SqlDataReader;
             //Se transforma al dynamic reader para acceder por nombre y evitar los casting entre tipo y los GET...
             dynamic dynreader = (DynamicDataReader)reader;
             var bodegaList = new List<BodegaViewModel>();
@@ -285,6 +285,56 @@ namespace JP.Exactus.Data
             return ConsecutivoList;
 
         }
+
+
+        public string GrabarPedido(PedidoParametrosViewModel PedidoParametros, PedidoLineaParametrosViewModel PedidoLineas)
+        {
+            string sqlcomando = "";
+            string Nropedido = ""; /*Pon aqui un numero de pedido cualquiera que sea varchar para probar*/
+            
+            sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); DECLARE @BODEGA  VARCHAR(100); DECLARE @ORDEN_COMPRA VARCHAR(100); DECLARE @OBSERVACIONES VARCHAR(300); ";
+            sqlcomando = sqlcomando + $" DECLARE @USUARIO_LOGIN VARCHAR(100); DECLARE @TARJETA_CREDITO VARCHAR(100); DECLARE @NOMBRE_CUENTA VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" DECLARE @CONDICION_PAGO INTEGER; DECLARE @PEDIDO VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" SET @BODEGA = '{PedidoParametros.BODEGA}'";
+            sqlcomando = sqlcomando + $" SET @ORDEN_COMPRA = '{PedidoParametros.ORDEN_COMPRA}'  ";
+            sqlcomando = sqlcomando + $" SET @OBSERVACIONES = '{PedidoParametros.OBSERVACIONES}'  ";
+            sqlcomando = sqlcomando + $" SET @USUARIO_LOGIN = '{PedidoParametros.USUARIO_LOGIN}'  ";
+            sqlcomando = sqlcomando + $" SET @TARJETA_CREDITO = '{PedidoParametros.TARJETA_CREDITO}' ";
+            sqlcomando = sqlcomando + $" SET @NOMBRE_CUENTA = '{PedidoParametros.NOMBRE_CUENTA}' ";
+            sqlcomando = sqlcomando + $" SET @CONDICION_PAGO = '{PedidoParametros.CONDICION_PAGO}'  ";
+            /*sqlcomando = sqlcomando + $" SET @PEDIDO = '{PedidoParametros.PEDIDO}' ";*/
+            sqlcomando = sqlcomando + $" SET @PEDIDO = '{Nropedido}' ";
+            sqlcomando = sqlcomando + $" DECLARE @FACTURADOR VARCHAR(100); DECLARE @VERSION_PRECIO VARCHAR(100); DECLARE @COBRADOR VARCHAR(100); DECLARE @RUTA VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" DECLARE @ZONA VARCHAR(100); DECLARE @PAIS VARCHAR(100); DECLARE @ALIAS_CLIENTE VARCHAR(100); DECLARE @VENDEDOR VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" DECLARE @SI_NO INTEGER; DECLARE @NIVEL_PRECIOS VARCHAR(100); ";
+            sqlcomando = sqlcomando + $" SELECT @SI_NO = COUNT(*) FROM  {this.schema}.PEDIDO WHERE PEDIDO = @PEDIDO ";
+            sqlcomando = sqlcomando + $" IF @SI_NO <= 0  ";
+            sqlcomando = sqlcomando + $" SELECT @ALIAS_CLIENTE = ALIAS,@NIVEL_PRECIOS= NIVEL_PRECIO, @COBRADOR = COBRADOR , @RUTA = RUTA, @ZONA = ZONA, @VENDEDOR = VENDEDOR, @PAIS = PAIS  ";
+            sqlcomando = sqlcomando + $" FROM {this.schema}.CLIENTE WHERE CLIENTE = @CLIENTE ";
+            sqlcomando = sqlcomando + $" IF @VENDEDOR IS NULL SET @VENDEDOR = 'ND' ";
+            sqlcomando = sqlcomando + $" SELECT @FACTURADOR = COD_FACTURADOR FROM USUARIO_FACTURADOR_WEB WHERE USUARIO = @USUARIO_LOGIN ";
+            sqlcomando = sqlcomando + $" IF @FACTURADOR = NULL OR @FACTURADOR = '' SET @FACTURADOR = @VENDEDOR ";
+            sqlcomando = sqlcomando + $" SELECT @VERSION_PRECIO = MAX(VERSION) FROM {this.schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = @NIVEL_PRECIOS ";
+            sqlcomando = sqlcomando + $" INSERT INTO {this.schema}.PEDIDO (PEDIDO,ESTADO,FECHA_PEDIDO,FECHA_PROMETIDA,FECHA_PROX_EMBARQU,FECHA_ULT_EMBARQUE, FECHA_ULT_CANCELAC, ORDEN_COMPRA,FECHA_ORDEN,TARJETA_CREDITO, EMBARCAR_A, DIREC_EMBARQUE,RUBRO1  ,RUBRO2 ,RUBRO3,RUBRO4,RUBRO5,OBSERVACIONES ,COMENTARIO_CXC,TOTAL_MERCADERIA,MONTO_ANTICIPO,MONTO_FLETE,MONTO_SEGURO,MONTO_DOCUMENTACIO,TIPO_DESCUENTO1,TIPO_DESCUENTO2,MONTO_DESCUENTO1,MONTO_DESCUENTO2,PORC_DESCUENTO1,PORC_DESCUENTO2,TOTAL_IMPUESTO1,TOTAL_IMPUESTO2,TOTAL_A_FACTURAR,PORC_COMI_VENDEDOR,PORC_COMI_COBRADOR,TOTAL_CANCELADO,TOTAL_UNIDADES,IMPRESO, FECHA_HORA,DESCUENTO_VOLUMEN,TIPO_PEDIDO,MONEDA_PEDIDO,VERSION_NP     ,AUTORIZADO,DOC_A_GENERAR,CLASE_PEDIDO,MONEDA,NIVEL_PRECIO,COBRADOR ,RUTA ,USUARIO       ,CONDICION_PAGO ,BODEGA ,ZONA, VENDEDOR ,CLIENTE,CLIENTE_DIRECCION,CLIENTE_CORPORAC,CLIENTE_ORIGEN,PAIS ,SUBTIPO_DOC_CXC,TIPO_DOC_CXC,BACKORDER,CONTRATO,PORC_INTCTE,DESCUENTO_CASCADA,NoteExistsFlag,RecordDate,CreatedBy ,CreateDate,DIRECCION_FACTURA,TIPO_CAMBIO,FIJAR_TIPO_CAMBIO,ORIGEN_PEDIDO, NOMBRE_CLIENTE) ";
+            sqlcomando = sqlcomando + $" VALUES                    (@PEDIDO,'N',   CONVERT(varchar(10),GETDATE(),120),   CONVERT(varchar(10),GETDATE(),120),      CONVERT(varchar(10),GETDATE(),120),         '1980-01-01 00:00:00.000','1980-01-01 00:00:00.000',@ORDEN_COMPRA,CONVERT(varchar(10),GETDATE(),120), @TARJETA_CREDITO, (CASE WHEN @NOMBRE_CUENTA IS NULL OR @NOMBRE_CUENTA = '' THEN @ALIAS_CLIENTE ELSE @NOMBRE_CUENTA END) ,'ND'          ,@NOMBRE_CUENTA,@FACTURADOR,NULL  ,NULL  ,NULL  ,@OBSERVACIONES,NULL          ,0               ,0             ,0          ,0           ,0                 ,'P'            ,'P'            ,0               ,0               , 0             ,0              ,0              , 0             ,0               , 0                , 0                 ,0             ,0             ,'N'    , CONVERT(varchar(10),GETDATE(),120) ,0                , 'N'       ,'L'          ,@VERSION_PRECIO,'N'       ,'F'          ,'N'         ,'L'   , @NIVEL_PRECIOS  ,@COBRADOR,@RUTA,@USUARIO_LOGIN,@CONDICION_PAGO,@BODEGA,@ZONA,@VENDEDOR,@CLIENTE,@CLIENTE        ,@CLIENTE        ,@CLIENTE      ,@PAIS,0              ,'FAC'       ,'N'      ,NULL    ,0          ,'N'              ,0             ,CONVERT(varchar(10),GETDATE(),120)  ,@USUARIO_LOGIN,CONVERT(varchar(10),GETDATE(),120) ,'ND'             ,NULL       ,'N'              ,'F'   , (CASE WHEN @NOMBRE_CUENTA IS NULL OR @NOMBRE_CUENTA = '' THEN @ALIAS_CLIENTE ELSE @NOMBRE_CUENTA END)    ) ";
+            sqlcomando = sqlcomando + " select @PEDIDO ";
+
+            SqlDataReader reader;
+            //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
+            reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, sqlcomando)).InnerReader as SqlDataReader;
+            //Se transforma al dynamic reader para acceder por nombre y evitar los casting entre tipo y los GET...
+            dynamic dynreader = (DynamicDataReader)reader;
+            //Se le el reader
+            while (dynreader.Read())
+            {
+                Nropedido = dynreader.nropedido;
+            }
+            dynreader.Close();
+            reader.Close();
+            return Nropedido;
+        }
+
 
 
 
