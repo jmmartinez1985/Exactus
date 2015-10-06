@@ -19,9 +19,9 @@ namespace JP.Exactus.Interfaces
         List<ArticuloViewModel> ObtenerArticulo(string usuario, string contraseña,string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6);
 
         List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña, string Schema);
-        string GrabarPedido(string usuario, string contraseña, string Schema);
+        string GrabarPedido(string usuario, string contraseña, string Schema, List<PedidoParametrosViewModel> ListaPedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas);
 
-
+        
 
     }
 }

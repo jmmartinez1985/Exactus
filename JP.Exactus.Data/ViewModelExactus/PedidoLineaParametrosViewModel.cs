@@ -14,5 +14,6 @@ public String CREADOR_POR { get; set; }
 public Decimal PRECIO_UNITARIO { get; set; }
 public Decimal CANTIDAD { get; set; }
 public Decimal DESCUENTO { get; set; }
+public Int32 Linea { get; set; }
     }
 }

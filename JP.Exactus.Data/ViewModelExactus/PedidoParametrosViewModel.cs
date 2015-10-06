@@ -17,6 +17,7 @@ public String TARJETA_CREDITO { get; set; }
 public String NOMBRE_CUENTA { get; set; }
 public String PEDIDO { get; set; }
 public Int32 CONDICION_PAGO { get; set; }
+public String CODIGO_CONSECUTIVO { get; set; }
 
     }
 }

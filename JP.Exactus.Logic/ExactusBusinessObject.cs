@@ -53,25 +53,19 @@ namespace JP.Exactus.Logic
             return exactus.BuscarConsecutivo(usuario);            
         }
 
-        public string GrabarPedido(string usuario, string  contraseña, string  Schema)
+        public string GrabarPedido(string usuario, string  contraseña, string  Schema, List<PedidoParametrosViewModel> ListaPedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas)
         {
-
-            PedidoParametrosViewModel model = new PedidoParametrosViewModel();
-            {
-                model.BODEGA = "B-51";
-                model.CLIENTE = "0000001";
-                model.CONDICION_PAGO = 0;
-                model.NOMBRE_CUENTA = "PRUEBA";
-                model.OBSERVACIONES = "...";
-                model.ORDEN_COMPRA = "...";
-                model.TARJETA_CREDITO = "...";
-                model.PEDIDO = "...";
-                model.USUARIO_LOGIN = "sa";
-            }
-
+            
             var exactus = new ExactusData(usuario, contraseña, Schema);
-            return exactus.GrabarPedido(model);
+            return exactus.GrabarPedido(ListaPedido, ListaPedidoLineas);
 
         }
+
+
+
+
+
+
+
     }
 }
