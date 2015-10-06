@@ -21,8 +21,8 @@ namespace JP.Exactus.Common
             if (!_isConfigured)
             {
                 // Mapeos de Catalogos.
-                Mapper.CreateMap<Empresa, EmpresasViewModel>();
-                Mapper.CreateMap<Auditoria, AuditoriaViewModel>();
+
+                //Dispositivos
                 Mapper.CreateMap<Dispositivo, DispositivoViewModel>()
                     .ForMember(t => t.Empresa, opts => opts.Ignore())
                     .ForMember(t => t.Auditoria, opts => opts.Ignore());
@@ -31,9 +31,27 @@ namespace JP.Exactus.Common
                     .ForMember(t => t.Empresa, opts => opts.Ignore())
                     .ForMember(t => t.Auditoria, opts => opts.Ignore());
 
+
+                //Empresas
+                Mapper.CreateMap<Empresa, EmpresasViewModel>();
+                    
+
+
+                //Opciones
                 Mapper.CreateMap<Opciones, OpcionesViewModel>();
-                Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>()
-                    .ForMember(t => t.Empresa, opts => opts.Ignore());
+
+                //OpcionesEmpresas
+                Mapper.CreateMap<OpcionesEmpresa, OpcionesEmpresaViewModel>();
+
+                Mapper.CreateMap<OpcionesEmpresaViewModel, OpcionesEmpresa >()
+                    .ForMember(t => t.Empresa, opts => opts.Ignore())
+                    .ForMember(t => t.Opciones, opts => opts.Ignore());
+
+                //Auditoria
+                Mapper.CreateMap<Auditoria, AuditoriaViewModel>();
+                
+
+                
 
 
 

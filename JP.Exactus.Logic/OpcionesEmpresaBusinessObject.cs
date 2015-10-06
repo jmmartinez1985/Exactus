@@ -12,6 +12,8 @@ namespace JP.Exactus.Logic
 {
     public class OpcionesEmpresaBusinessObject : BusinessCoreObject, IOpcionesEmpresaBusinessObject
     {
+        
+
         public IEnumerable<OpcionesEmpresaViewModel> ObtenerOpcionesEmpresa(int idEmpresa)
         {
             var opciones = base.Context.OpcionesEmpresa.Where(c => c.IDEmpresa == idEmpresa).ToList();
@@ -40,9 +42,14 @@ namespace JP.Exactus.Logic
 
         public IEnumerable<OpcionesEmpresaViewModel> ListarOpcionesEmpresa()
         {
-            var OpcionesEmpresaList = base.Context.OpcionesEmpresa.ToList();
+            var OpcionesEmpresaList = base.Context.OpcionesEmpresa.Include("Empresa").Include("Opciones").ToList();
             return Mapper.Map<List<OpcionesEmpresa>, List<OpcionesEmpresaViewModel>>(OpcionesEmpresaList);
         }
 
+        public OpcionesEmpresaViewModel ObtenerOpcionEmpresaPorId(int OpcionId)
+        {
+            var opcion = base.Context.OpcionesEmpresa.FirstOrDefault(c => c.IDOpcion == OpcionId);
+            return Mapper.Map<OpcionesEmpresa, OpcionesEmpresaViewModel>(opcion);
+        }
     }
 }

@@ -59,7 +59,7 @@ namespace JP.Exactus.Web.Controllers
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var obje = core.OpcionesEmpresa.ObtenerOpcionesEmpresa(id);
+                var obje = core.OpcionesEmpresa.ObtenerOpcionEmpresaPorId(id);
                 return View(obje);
             }
         }
@@ -76,7 +76,7 @@ namespace JP.Exactus.Web.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
