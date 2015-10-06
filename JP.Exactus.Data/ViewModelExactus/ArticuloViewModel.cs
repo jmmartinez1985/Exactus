@@ -13,6 +13,6 @@ namespace JP.Exactus.Data.ViewModelExactus
         public String CODIGO_BARRA { get; set; }
         public Decimal DISPONIBLE { get; set; }
         public Decimal PRECIO { get; set; }
-        public Int32 IMPUESTO { get; set; } /*Este impuesto es solamente para cada articulo*/
+        public String IMPUESTO { get; set; } /*Este impuesto es solamente para cada articulo*/
     }
 }

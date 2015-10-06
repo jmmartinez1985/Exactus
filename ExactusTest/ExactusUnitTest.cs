@@ -9,6 +9,7 @@ namespace ExactusTest
     [TestClass]
     public class ExactusUnitTest
     {
+        IExactusBusinessObject exac = new ExactusBusinessObject();
 
         [TestMethod]
         public void ObtenerBodega()
@@ -21,9 +22,49 @@ namespace ExactusTest
         [TestMethod]
         public void ObtenerUsuario() {
 
-            IExactusBusinessObject exac = new  ExactusBusinessObject();
+            
             exac.ValidaUsuario("jperezz", "japerez");
 
         }
+
+        [TestMethod]
+        public void GrabarPedido()
+        {
+            
+            
+            exac.GrabarPedido("jperez", "japerez", "bremen");
+        }
+
+        [TestMethod]
+        public void ObtenerClientePorNombre()
+        {
+            
+            exac.ObtenerClientePorNombre("jperez", "japerez", "ABARROTERIA ROSEMY");
+
+        }
+
+        [TestMethod]
+        public void ObtenerClientePorRuc()
+        {
+            exac.ObtenerClientePorRuc("jperez", "japerez", "6-710-842");
+        }
+
+        [TestMethod]
+        public void ObtenerArticulo()
+        {
+            exac.ObtenerArticulo("jperez", "japerez", "B-51", "165", null, "ND-LOCAL", "14", null, null, null, null, null, null);
+        }
+
+        public void BuscarConsecutivo()
+        {
+
+        }
+
+
+
+
+
+
+
     }
 }

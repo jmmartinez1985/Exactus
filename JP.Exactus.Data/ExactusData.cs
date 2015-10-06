@@ -165,10 +165,10 @@ namespace JP.Exactus.Data
         public List<ArticuloViewModel> ObtenerArticulo(string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6)
         {
             string sqlcomando = "";
-            sqlcomando = $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,CONVERT(CHAR,CONVERT(INT,(EB.CANT_DISPONIBLE))) Disponible, (SELECT PRECIO FROM {this.schema}.ARTICULO_PRECIO WHERE VERSION = {version_precio} AND NIVEL_PRECIO = {nivel_precio}  AND ARTICULO = AR.ARTICULO) PRECIO, AR.IMPUESTO ";
+            sqlcomando = $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,EB.CANT_DISPONIBLE Disponible, coalesce((SELECT PRECIO FROM {this.schema}.ARTICULO_PRECIO WHERE VERSION = '{version_precio}' AND NIVEL_PRECIO = '{nivel_precio}'  AND ARTICULO = AR.ARTICULO),0.00) PRECIO, AR.IMPUESTO ";
             sqlcomando = sqlcomando + $" FROM {this.schema}.ARTICULO AR, {this.schema}.EXISTENCIA_BODEGA EB ";
             sqlcomando = sqlcomando + " WHERE AR.ARTICULO = EB.ARTICULO AND AR.ACTIVO = 'S' ";
-            sqlcomando = sqlcomando + $" AND BODEGA = {bodega}";
+            sqlcomando = sqlcomando + $" AND BODEGA = '{bodega}'";
             if (articulo == null)
             {
                 sqlcomando = sqlcomando + $" AND AR.DESCRIPCION LIKE '%{descripcion}%'";
@@ -178,29 +178,29 @@ namespace JP.Exactus.Data
                 sqlcomando = sqlcomando + $" AND AR.ARTICULO LIKE '%{articulo}%'";
             }
 
-            if (clasificacion1 != null)
+            if (clasificacion1 != null) 
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_1 = {clasificacion1} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_1 = '{clasificacion1}' ";
             }
             if (clasificacion2 != null)
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_2 = {clasificacion2} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_2 = '{clasificacion2}' ";
             }
             if (clasificacion3 != null)
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_3 = {clasificacion3} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_3 = '{clasificacion3}' ";
             }
             if (clasificacion4 != null)
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_4 = {clasificacion4} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_4 = '{clasificacion4}' ";
             }
             if (clasificacion5 != null)
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_5 = {clasificacion5} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_5 = '{clasificacion5}' ";
             }
             if (clasificacion6 != null)
             {
-                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_6 = {clasificacion6} ";
+                sqlcomando = sqlcomando + $" AND AR.CLASIFICACION_6 = '{clasificacion6}' ";
             }
             sqlcomando = sqlcomando + " ORDER BY AR.ARTICULO desc ";
 
@@ -216,11 +216,11 @@ namespace JP.Exactus.Data
                 //Se crea objeto bodega para pasarlo a la Lista
                 ArticuloViewModel model = new ArticuloViewModel()
                 {
-                 
+
                     ARTICULO = dynreader.ARTICULO,
                     DESCRIPCION = dynreader.DESCRIPCION,
                     CODIGO_BARRA = dynreader.CODIGO_BARRA,
-                    DISPONIBLE = dynreader.DISPONIBLE,
+                    DISPONIBLE = dynreader.Disponible,
                     PRECIO = dynreader.PRECIO,
                     IMPUESTO = dynreader.IMPUESTO
 
@@ -287,24 +287,24 @@ namespace JP.Exactus.Data
         }
 
 
-        public string GrabarPedido(PedidoParametrosViewModel PedidoParametros, PedidoLineaParametrosViewModel PedidoLineas)
+        public string GrabarPedido(PedidoParametrosViewModel PedidoParametros)
         {
             string sqlcomando = "";
-            string Nropedido = ""; /*Pon aqui un numero de pedido cualquiera que sea varchar para probar*/
+            string Nropedido = "PBA-10000006"; /*Pon aqui un numero de pedido cualquiera que sea varchar para probar*/
             
             sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); DECLARE @BODEGA  VARCHAR(100); DECLARE @ORDEN_COMPRA VARCHAR(100); DECLARE @OBSERVACIONES VARCHAR(300); ";
             sqlcomando = sqlcomando + $" DECLARE @USUARIO_LOGIN VARCHAR(100); DECLARE @TARJETA_CREDITO VARCHAR(100); DECLARE @NOMBRE_CUENTA VARCHAR(100); ";
             sqlcomando = sqlcomando + $" DECLARE @CONDICION_PAGO INTEGER; DECLARE @PEDIDO VARCHAR(100); ";
-            sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); ";
-            sqlcomando = sqlcomando + $" SET @BODEGA = '{PedidoParametros.BODEGA}'";
-            sqlcomando = sqlcomando + $" SET @ORDEN_COMPRA = '{PedidoParametros.ORDEN_COMPRA}'  ";
-            sqlcomando = sqlcomando + $" SET @OBSERVACIONES = '{PedidoParametros.OBSERVACIONES}'  ";
-            sqlcomando = sqlcomando + $" SET @USUARIO_LOGIN = '{PedidoParametros.USUARIO_LOGIN}'  ";
-            sqlcomando = sqlcomando + $" SET @TARJETA_CREDITO = '{PedidoParametros.TARJETA_CREDITO}' ";
-            sqlcomando = sqlcomando + $" SET @NOMBRE_CUENTA = '{PedidoParametros.NOMBRE_CUENTA}' ";
-            sqlcomando = sqlcomando + $" SET @CONDICION_PAGO = '{PedidoParametros.CONDICION_PAGO}'  ";
+            sqlcomando = sqlcomando + $" SET @BODEGA = '{PedidoParametros.BODEGA}';";
+            sqlcomando = sqlcomando + $" SET @ORDEN_COMPRA = '{PedidoParametros.ORDEN_COMPRA}';  ";
+            sqlcomando = sqlcomando + $" SET @OBSERVACIONES = '{PedidoParametros.OBSERVACIONES}';  ";
+            sqlcomando = sqlcomando + $" SET @USUARIO_LOGIN = '{PedidoParametros.USUARIO_LOGIN}';  ";
+            sqlcomando = sqlcomando + $" SET @TARJETA_CREDITO = '{PedidoParametros.TARJETA_CREDITO}'; ";
+            sqlcomando = sqlcomando + $" SET @NOMBRE_CUENTA = '{PedidoParametros.NOMBRE_CUENTA}'; ";
+            sqlcomando = sqlcomando + $" SET @CONDICION_PAGO = '{PedidoParametros.CONDICION_PAGO}';  ";
+            sqlcomando = sqlcomando + $" SET @CLIENTE = '{PedidoParametros.CLIENTE}';  ";
             /*sqlcomando = sqlcomando + $" SET @PEDIDO = '{PedidoParametros.PEDIDO}' ";*/
-            sqlcomando = sqlcomando + $" SET @PEDIDO = '{Nropedido}' ";
+            sqlcomando = sqlcomando + $" SET @PEDIDO = '{Nropedido}'; ";
             sqlcomando = sqlcomando + $" DECLARE @FACTURADOR VARCHAR(100); DECLARE @VERSION_PRECIO VARCHAR(100); DECLARE @COBRADOR VARCHAR(100); DECLARE @RUTA VARCHAR(100); ";
             sqlcomando = sqlcomando + $" DECLARE @ZONA VARCHAR(100); DECLARE @PAIS VARCHAR(100); DECLARE @ALIAS_CLIENTE VARCHAR(100); DECLARE @VENDEDOR VARCHAR(100); ";
             sqlcomando = sqlcomando + $" DECLARE @SI_NO INTEGER; DECLARE @NIVEL_PRECIOS VARCHAR(100); ";
@@ -318,7 +318,21 @@ namespace JP.Exactus.Data
             sqlcomando = sqlcomando + $" SELECT @VERSION_PRECIO = MAX(VERSION) FROM {this.schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = @NIVEL_PRECIOS ";
             sqlcomando = sqlcomando + $" INSERT INTO {this.schema}.PEDIDO (PEDIDO,ESTADO,FECHA_PEDIDO,FECHA_PROMETIDA,FECHA_PROX_EMBARQU,FECHA_ULT_EMBARQUE, FECHA_ULT_CANCELAC, ORDEN_COMPRA,FECHA_ORDEN,TARJETA_CREDITO, EMBARCAR_A, DIREC_EMBARQUE,RUBRO1  ,RUBRO2 ,RUBRO3,RUBRO4,RUBRO5,OBSERVACIONES ,COMENTARIO_CXC,TOTAL_MERCADERIA,MONTO_ANTICIPO,MONTO_FLETE,MONTO_SEGURO,MONTO_DOCUMENTACIO,TIPO_DESCUENTO1,TIPO_DESCUENTO2,MONTO_DESCUENTO1,MONTO_DESCUENTO2,PORC_DESCUENTO1,PORC_DESCUENTO2,TOTAL_IMPUESTO1,TOTAL_IMPUESTO2,TOTAL_A_FACTURAR,PORC_COMI_VENDEDOR,PORC_COMI_COBRADOR,TOTAL_CANCELADO,TOTAL_UNIDADES,IMPRESO, FECHA_HORA,DESCUENTO_VOLUMEN,TIPO_PEDIDO,MONEDA_PEDIDO,VERSION_NP     ,AUTORIZADO,DOC_A_GENERAR,CLASE_PEDIDO,MONEDA,NIVEL_PRECIO,COBRADOR ,RUTA ,USUARIO       ,CONDICION_PAGO ,BODEGA ,ZONA, VENDEDOR ,CLIENTE,CLIENTE_DIRECCION,CLIENTE_CORPORAC,CLIENTE_ORIGEN,PAIS ,SUBTIPO_DOC_CXC,TIPO_DOC_CXC,BACKORDER,CONTRATO,PORC_INTCTE,DESCUENTO_CASCADA,NoteExistsFlag,RecordDate,CreatedBy ,CreateDate,DIRECCION_FACTURA,TIPO_CAMBIO,FIJAR_TIPO_CAMBIO,ORIGEN_PEDIDO, NOMBRE_CLIENTE) ";
             sqlcomando = sqlcomando + $" VALUES                    (@PEDIDO,'N',   CONVERT(varchar(10),GETDATE(),120),   CONVERT(varchar(10),GETDATE(),120),      CONVERT(varchar(10),GETDATE(),120),         '1980-01-01 00:00:00.000','1980-01-01 00:00:00.000',@ORDEN_COMPRA,CONVERT(varchar(10),GETDATE(),120), @TARJETA_CREDITO, (CASE WHEN @NOMBRE_CUENTA IS NULL OR @NOMBRE_CUENTA = '' THEN @ALIAS_CLIENTE ELSE @NOMBRE_CUENTA END) ,'ND'          ,@NOMBRE_CUENTA,@FACTURADOR,NULL  ,NULL  ,NULL  ,@OBSERVACIONES,NULL          ,0               ,0             ,0          ,0           ,0                 ,'P'            ,'P'            ,0               ,0               , 0             ,0              ,0              , 0             ,0               , 0                , 0                 ,0             ,0             ,'N'    , CONVERT(varchar(10),GETDATE(),120) ,0                , 'N'       ,'L'          ,@VERSION_PRECIO,'N'       ,'F'          ,'N'         ,'L'   , @NIVEL_PRECIOS  ,@COBRADOR,@RUTA,@USUARIO_LOGIN,@CONDICION_PAGO,@BODEGA,@ZONA,@VENDEDOR,@CLIENTE,@CLIENTE        ,@CLIENTE        ,@CLIENTE      ,@PAIS,0              ,'FAC'       ,'N'      ,NULL    ,0          ,'N'              ,0             ,CONVERT(varchar(10),GETDATE(),120)  ,@USUARIO_LOGIN,CONVERT(varchar(10),GETDATE(),120) ,'ND'             ,NULL       ,'N'              ,'F'   , (CASE WHEN @NOMBRE_CUENTA IS NULL OR @NOMBRE_CUENTA = '' THEN @ALIAS_CLIENTE ELSE @NOMBRE_CUENTA END)    ) ";
-            sqlcomando = sqlcomando + " select @PEDIDO ";
+            sqlcomando = sqlcomando + " select @PEDIDO  PEDIDO";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             SqlDataReader reader;
             //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
@@ -328,7 +342,7 @@ namespace JP.Exactus.Data
             //Se le el reader
             while (dynreader.Read())
             {
-                Nropedido = dynreader.nropedido;
+                Nropedido = dynreader.PEDIDO;
             }
             dynreader.Close();
             reader.Close();
