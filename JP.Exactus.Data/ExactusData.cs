@@ -381,16 +381,47 @@ namespace JP.Exactus.Data
             db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
         }
 
+        public void InsertarLineaNueva(List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        {
+            string sqlcomando = "";
+            sqlcomando = sqlcomando + $" DECLARE @BODEGA VARCHAR(100);  DECLARE @PEDIDO VARCHAR(100); DECLARE @ARTICULO VARCHAR(100); DECLARE @CREADOR_POR VARCHAR(100); DECLARE @PRECIO_UNITARIO DECIMAL(14,2); DECLARE @CANTIDAD DECIMAL(14,2); DECLARE @DESCUENTO DECIMAL(14,2); ";
+            sqlcomando = sqlcomando + $" DECLARE @LINEA_USUARIO   INTEGER; DECLARE @PEDIDO_LINEA    INTEGER; DECLARE @EXENTO_IMPUESTO VARCHAR(10); DECLARE @ITBM DECIMAL(14,2); ";
+            foreach (var item in PedidoLineaParametros)
+            {
+                sqlcomando = sqlcomando + $" set @PEDIDO ='{item.PEDIDO}'; ";
+                sqlcomando = sqlcomando + $" set @ARTICULO ='{item.ARTICULO}'; ";
+                sqlcomando = sqlcomando + $" set @CREADOR_POR ='{item.CREADOR_POR}'; ";
+                sqlcomando = sqlcomando + $" set @PRECIO_UNITARIO = {item.PRECIO_UNITARIO}; ";
+                sqlcomando = sqlcomando + $" set @CANTIDAD = {item.CANTIDAD}; ";
+                sqlcomando = sqlcomando + $" set @DESCUENTO = {item.DESCUENTO}; ";
+                sqlcomando = sqlcomando + $" select @BODEGA = bodega from {this.schema}.pedido where pedido = '{item.PEDIDO}' ; ";
+                sqlcomando = sqlcomando + $" Select @ITBM = CONVERT(DECIMAL(14,2),IMPUESTO1)/100 + CONVERT(DECIMAL(14,2),IMPUESTO2)/100 From {this.schema}.IMPUESTO WHERE IMPUESTO = (SELECT IMPUESTO FROM {this.schema}.ARTICULO WHERE ARTICULO = @ARTICULO) ; ";
+                sqlcomando = sqlcomando + $" SELECT @EXENTO_IMPUESTO = EXENTO_IMPUESTOS FROM {this.schema}.CLIENTE WHERE CLIENTE = (SELECT CLIENTE FROM {this.schema}.PEDIDO WHERE PEDIDO = @PEDIDO) ";
+                sqlcomando = sqlcomando + $" IF  (SELECT MAX(PEDIDO_LINEA)+1 FROM {this.schema}.PEDIDO_LINEA WHERE PEDIDO = @PEDIDO) IS NULL  ";
+                sqlcomando = sqlcomando + $" SET @PEDIDO_LINEA = 1 ";
+                sqlcomando = sqlcomando + $" ELSE ";
+                sqlcomando = sqlcomando + $" SELECT @PEDIDO_LINEA =  MAX(PEDIDO_LINEA)+1 FROM {this.schema}.PEDIDO_LINEA WHERE PEDIDO = @PEDIDO ";
+                sqlcomando = sqlcomando + $" IF (SELECT COUNT(*) FROM {this.schema}.PEDIDO_LINEA WHERE PEDIDO = @PEDIDO) <= 0  ";
+                sqlcomando = sqlcomando + $" SET @LINEA_USUARIO = 0 ";
+                sqlcomando = sqlcomando + $" ELSE ";
+                sqlcomando = sqlcomando + $" SELECT @LINEA_USUARIO = COUNT(*)-1 FROM {this.schema}.PEDIDO_LINEA WHERE PEDIDO = @PEDIDO  ";
+                sqlcomando = sqlcomando + $" INSERT INTO {this.schema}.PEDIDO_LINEA(PEDIDO,  PEDIDO_LINEA,  BODEGA, LOTE,LOCALIZACION,ARTICULO ,ESTADO,FECHA_ENTREGA,LINEA_USUARIO, PRECIO_UNITARIO, CANTIDAD_PEDIDA,CANTIDAD_A_FACTURA,CANTIDAD_FACTURADA,CANTIDAD_RESERVADA,CANTIDAD_BONIFICAD,CANTIDAD_CANCELADA,TIPO_DESCUENTO,MONTO_DESCUENTO,PORC_DESCUENTO,DESCRIPCION,COMENTARIO,PEDIDO_LINEA_BONIF,UNIDAD_DISTRIBUCIO,FECHA_PROMETIDA,LINEA_ORDEN_COMPRA,RecordDate,CreatedBy,CreateDate) ";
+                sqlcomando = sqlcomando + $" VALUES                         (@PEDIDO, @PEDIDO_LINEA, @BODEGA,NULL,NULL        ,@ARTICULO,'N'   ,CONVERT(varchar(10),GETDATE(),120),@LINEA_USUARIO,@PRECIO_UNITARIO,@CANTIDAD      ,@CANTIDAD                 ,@CANTIDAD         ,0                 ,0                 ,0                 ,'P'           ,@DESCUENTO              ,0             ,NULL       ,NULL      ,NULL              ,NULL              ,CONVERT(varchar(10),GETDATE(),120)      ,NULL              , CONVERT(varchar(10),GETDATE(),120), @CREADOR_POR,getdate())       ";
+                sqlcomando = sqlcomando + $" UPDATE {this.schema}.EXISTENCIA_BODEGA SET CANT_PEDIDA = CANT_PEDIDA + @CANTIDAD  WHERE BODEGA = @BODEGA AND ARTICULO = @ARTICULO ";
+                sqlcomando = sqlcomando + $" IF @EXENTO_IMPUESTO = 'S' OR @ITBM = 0 ";
+                sqlcomando = sqlcomando + $" UPDATE {this.schema}.PEDIDO SET TOTAL_MERCADERIA = TOTAL_MERCADERIA + ROUND(@PRECIO_UNITARIO*@CANTIDAD,4), TOTAL_IMPUESTO1 = TOTAL_IMPUESTO1, TOTAL_A_FACTURAR = TOTAL_A_FACTURAR + ROUND((@PRECIO_UNITARIO*@CANTIDAD)-(@DESCUENTO),3),TOTAL_UNIDADES = TOTAL_UNIDADES + @CANTIDAD, MONTO_DESCUENTO1 = MONTO_DESCUENTO1 + @DESCUENTO WHERE PEDIDO = @PEDIDO ";
+                sqlcomando = sqlcomando + $" ELSE ";
+                sqlcomando = sqlcomando + $" UPDATE {this.schema}.PEDIDO SET TOTAL_MERCADERIA = TOTAL_MERCADERIA + ROUND(@PRECIO_UNITARIO*@CANTIDAD,4), TOTAL_IMPUESTO1 = TOTAL_IMPUESTO1 + ROUND(((@PRECIO_UNITARIO*@CANTIDAD)- @DESCUENTO) * (@ITBM),4), TOTAL_A_FACTURAR = TOTAL_A_FACTURAR + ROUND(((@PRECIO_UNITARIO*@CANTIDAD)- @DESCUENTO),4)+ROUND(((@PRECIO_UNITARIO*@CANTIDAD)-@DESCUENTO) * @ITBM,4)/*-ROUND(@DESCUENTO,2)*/,TOTAL_UNIDADES = TOTAL_UNIDADES + @CANTIDAD,MONTO_DESCUENTO1 = MONTO_DESCUENTO1 + @DESCUENTO WHERE PEDIDO = @PEDIDO ";
+            }
 
+            db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
+        }
 
-
-
-
-
-
-
-
-
+        public void EliminarPedidoCompleto(PedidoParametrosViewModel PedidoParametros)
+        {
+            string sqlcomando = $" DELETE FROM {this.schema}.pedido_linea where pedido = '{PedidoParametros.PEDIDO}'; DELETE FROM {this.schema}.pedido where pedido = '{PedidoParametros.PEDIDO}' ; ";
+            db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
+        }
 
 
 

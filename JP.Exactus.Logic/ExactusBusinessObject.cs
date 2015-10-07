@@ -68,8 +68,17 @@ namespace JP.Exactus.Logic
 
         }
 
+        public void InsertarLineaNueva(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        {
+            var exactus = new ExactusData(usuario, contraseña, Schema);
+            exactus.InsertarLineaNueva(PedidoLineaParametros);
+        }
 
-
+        public void EliminarPedidoCompleto(string usuario, string contraseña, string Schema, PedidoParametrosViewModel PedidoParametros)
+        {
+            var exactus = new ExactusData(usuario, contraseña, Schema);
+            exactus.EliminarPedidoCompleto(PedidoParametros);
+        }
 
 
 

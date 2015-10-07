@@ -104,10 +104,28 @@ namespace ExactusTest
         public void EliminarLinea()
         {
             List<PedidoLineaParametrosViewModel> lista = new List<PedidoLineaParametrosViewModel>();
-            lista.Add(new PedidoLineaParametrosViewModel() { PEDIDO = "PBA-10000006", ARTICULO = "165/60R14 FALKE", Linea = 3 });
+            lista.Add(new PedidoLineaParametrosViewModel() { PEDIDO = "PBA-10000007", ARTICULO = "165/60R14 FALKE", Linea = 3 });
             exac.EliminarLinea("jperez", "japerez", "bremen", lista);
            
         }
+
+        [TestMethod]
+        public void InsertarLineaNueva()
+        {
+            List<PedidoLineaParametrosViewModel> lista = new List<PedidoLineaParametrosViewModel>();
+            lista.Add(new PedidoLineaParametrosViewModel() { ARTICULO = "165/60R14 FALKE", CREADOR_POR = "jperez", PRECIO_UNITARIO = Convert.ToDecimal(107.52), CANTIDAD = 4, DESCUENTO = Convert.ToDecimal(0.00), PEDIDO = "PBA-10000007" });
+            exac.InsertarLineaNueva("jperez", "japerez", "bremen", lista);
+        }
+
+        [TestMethod]
+        public void EliminarPedidoCompleto()
+        {
+            PedidoParametrosViewModel pedido = new PedidoParametrosViewModel();
+            pedido.PEDIDO = "PBA-10000007";
+            exac.EliminarPedidoCompleto("jperez", "japerez", "bremen", pedido);
+        }
+
+
 
 
 
