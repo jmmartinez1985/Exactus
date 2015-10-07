@@ -25,5 +25,7 @@ namespace JP.Exactus.Interfaces
         void InsertarLineaNueva(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
         void EliminarPedidoCompleto(string usuario, string contraseña, string Schema, PedidoParametrosViewModel PedidoParametros);
 
+        List<ClasificacionViewModel> ObtenerClasificacion(string usuario, string contraseña, string Schema, string agrupacion);
+
     }
 }

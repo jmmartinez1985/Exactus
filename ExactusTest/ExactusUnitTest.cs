@@ -125,8 +125,11 @@ namespace ExactusTest
             exac.EliminarPedidoCompleto("jperez", "japerez", "bremen", pedido);
         }
 
-
-
+        [TestMethod]
+        public void BuscarClasificacion()
+        {
+            exac.ObtenerClasificacion("jperez", "japerez", "bremen", "1");
+        }
 
 
 

@@ -80,7 +80,12 @@ namespace JP.Exactus.Logic
             exactus.EliminarPedidoCompleto(PedidoParametros);
         }
 
-
+        public List<ClasificacionViewModel> ObtenerClasificacion(string usuario, string contraseña, string Schema, string agrupacion)
+        {
+            var exactus = new ExactusData(usuario, contraseña, Schema);
+            return exactus.ObtenerClasificacion(agrupacion);
+            
+        }
 
 
     }
