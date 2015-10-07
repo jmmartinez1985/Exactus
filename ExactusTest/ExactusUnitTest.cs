@@ -78,7 +78,7 @@ namespace ExactusTest
         public void ObtenerClientePorNombre()
         {
             
-            exac.ObtenerClientePorNombre("jperez", "japerez", "ABARROTERIA ROSEMY");
+            exac.ObtenerClientePorNombre("jperez", "japerez", "ABARROTERIA");
 
         }
 

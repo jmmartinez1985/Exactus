@@ -290,7 +290,10 @@ namespace JP.Exactus.Data
         public string GrabarPedido(PedidoParametrosViewModel PedidoParametros, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             string sqlcomando = "";
-            string Nropedido = ""; 
+            string Nropedido = "";
+
+
+            sqlcomando = sqlcomando + $" BEGIN TRY BEGIN TRANSACTION ";
             sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); DECLARE @BODEGA  VARCHAR(100); DECLARE @ORDEN_COMPRA VARCHAR(100); DECLARE @OBSERVACIONES VARCHAR(300); ";
             sqlcomando = sqlcomando + $" DECLARE @USUARIO_LOGIN VARCHAR(100); DECLARE @TARJETA_CREDITO VARCHAR(100); DECLARE @NOMBRE_CUENTA VARCHAR(100); ";
             sqlcomando = sqlcomando + $" DECLARE @CONDICION_PAGO INTEGER; DECLARE @PEDIDO VARCHAR(100); ";
@@ -350,6 +353,9 @@ namespace JP.Exactus.Data
             }
             
             sqlcomando = sqlcomando + " select @PEDIDO  PEDIDO";
+            sqlcomando = sqlcomando + " COMMIT END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK END CATCH ";
+
+
             SqlDataReader reader;
             //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
             reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, sqlcomando)).InnerReader as SqlDataReader;
@@ -369,6 +375,7 @@ namespace JP.Exactus.Data
         public void EliminarLinea(List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             string sqlcomando = "";
+            sqlcomando = sqlcomando + $" BEGIN TRY BEGIN TRANSACTION ";
             sqlcomando = sqlcomando + " DECLARE @NUM_PEDIDO VARCHAR(100); DECLARE @ARTICULO VARCHAR(100); DECLARE @LINEA INTEGER; DECLARE @SUB_TOTAL DECIMAL(14,4); DECLARE @ITBM DECIMAL(14,3); DECLARE @TOTAL DECIMAL(14,3); DECLARE @UNIDADES DECIMAL(14,3); DECLARE @MONTO_DESCUENTO DECIMAL(14,3); DECLARE @EXENTO_IMPUESTO VARCHAR(10); DECLARE @ITBMS DECIMAL(14,2);    ";
             
             foreach (var item in PedidoLineaParametros)
@@ -378,12 +385,14 @@ namespace JP.Exactus.Data
                 sqlcomando = sqlcomando + $" set @LINEA = {item.Linea}; ";
                 sqlcomando = sqlcomando + $" Select @ITBMS = CONVERT(DECIMAL(14,2),IMPUESTO1)/100 + CONVERT(DECIMAL(14,2),IMPUESTO2)/100 From {this.schema}.IMPUESTO WHERE IMPUESTO = (SELECT IMPUESTO FROM {this.schema}.ARTICULO WHERE ARTICULO = @ARTICULO) ;  SELECT @EXENTO_IMPUESTO = EXENTO_IMPUESTOS FROM {this.schema}.CLIENTE WHERE CLIENTE = (SELECT CLIENTE FROM {this.schema}.PEDIDO WHERE PEDIDO = @NUM_PEDIDO)  IF @EXENTO_IMPUESTO = 'S' OR @ITBMS = 0 SELECT @SUB_TOTAL = CONVERT(DECIMAL(10,4),(PRECIO_UNITARIO*CANTIDAD_PEDIDA)), @UNIDADES = CONVERT(DECIMAL(10,4),CANTIDAD_PEDIDA), @ITBM = 0 ,   @TOTAL = ROUND(((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO),4), @MONTO_DESCUENTO = CONVERT(DECIMAL(10,4),ROUND(MONTO_DESCUENTO,4))  FROM {this.schema}.PEDIDO_LINEA PL, {this.schema}.ARTICULO AR WHERE PL.ARTICULO = AR.ARTICULO AND PEDIDO = @NUM_PEDIDO AND  PL.ARTICULO = @ARTICULO AND  PL.PEDIDO_LINEA = @LINEA  ELSE SELECT @SUB_TOTAL = CONVERT(DECIMAL(10,4),(PRECIO_UNITARIO*CANTIDAD_PEDIDA)), @UNIDADES = CONVERT(DECIMAL(10,4),CANTIDAD_PEDIDA),   @ITBM = CONVERT(DECIMAL(10,4),ROUND((((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO)*@ITBMS),4)) , @TOTAL = CONVERT(DECIMAL(10,4),ROUND(((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO) + (((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO)*@ITBMS),4)), @MONTO_DESCUENTO = CONVERT(DECIMAL(10,4),ROUND(MONTO_DESCUENTO,4))  FROM {this.schema}.PEDIDO_LINEA PL, {this.schema}.ARTICULO AR WHERE PL.ARTICULO = AR.ARTICULO AND PEDIDO = @NUM_PEDIDO  AND  PL.ARTICULO = @ARTICULO AND  PL.PEDIDO_LINEA = @LINEA  UPDATE {this.schema}.PEDIDO SET TOTAL_MERCADERIA = TOTAL_MERCADERIA - ROUND(@SUB_TOTAL,4), TOTAL_IMPUESTO1 = TOTAL_IMPUESTO1 - ROUND(@ITBM,4) , TOTAL_A_FACTURAR = TOTAL_A_FACTURAR - ROUND(@TOTAL,4), TOTAL_UNIDADES = TOTAL_UNIDADES - @UNIDADES, MONTO_DESCUENTO1 = MONTO_DESCUENTO1 - @MONTO_DESCUENTO WHERE PEDIDO = @NUM_PEDIDO  DELETE FROM {this.schema}.PEDIDO_LINEA WHERE ARTICULO = @ARTICULO AND PEDIDO = @NUM_PEDIDO AND PEDIDO_LINEA = @LINEA  UPDATE {this.schema}.EXISTENCIA_BODEGA SET CANT_PEDIDA = CANT_PEDIDA - @UNIDADES WHERE BODEGA = (SELECT DISTINCT BODEGA FROM {this.schema}.PEDIDO WHERE PEDIDO = @NUM_PEDIDO) AND ARTICULO = @ARTICULO  "; 
             }
+            sqlcomando = sqlcomando + " COMMIT END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK END CATCH ";
             db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
         }
 
         public void InsertarLineaNueva(List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             string sqlcomando = "";
+            sqlcomando = sqlcomando + $" BEGIN TRY BEGIN TRANSACTION ";
             sqlcomando = sqlcomando + $" DECLARE @BODEGA VARCHAR(100);  DECLARE @PEDIDO VARCHAR(100); DECLARE @ARTICULO VARCHAR(100); DECLARE @CREADOR_POR VARCHAR(100); DECLARE @PRECIO_UNITARIO DECIMAL(14,2); DECLARE @CANTIDAD DECIMAL(14,2); DECLARE @DESCUENTO DECIMAL(14,2); ";
             sqlcomando = sqlcomando + $" DECLARE @LINEA_USUARIO   INTEGER; DECLARE @PEDIDO_LINEA    INTEGER; DECLARE @EXENTO_IMPUESTO VARCHAR(10); DECLARE @ITBM DECIMAL(14,2); ";
             foreach (var item in PedidoLineaParametros)
@@ -413,13 +422,16 @@ namespace JP.Exactus.Data
                 sqlcomando = sqlcomando + $" ELSE ";
                 sqlcomando = sqlcomando + $" UPDATE {this.schema}.PEDIDO SET TOTAL_MERCADERIA = TOTAL_MERCADERIA + ROUND(@PRECIO_UNITARIO*@CANTIDAD,4), TOTAL_IMPUESTO1 = TOTAL_IMPUESTO1 + ROUND(((@PRECIO_UNITARIO*@CANTIDAD)- @DESCUENTO) * (@ITBM),4), TOTAL_A_FACTURAR = TOTAL_A_FACTURAR + ROUND(((@PRECIO_UNITARIO*@CANTIDAD)- @DESCUENTO),4)+ROUND(((@PRECIO_UNITARIO*@CANTIDAD)-@DESCUENTO) * @ITBM,4)/*-ROUND(@DESCUENTO,2)*/,TOTAL_UNIDADES = TOTAL_UNIDADES + @CANTIDAD,MONTO_DESCUENTO1 = MONTO_DESCUENTO1 + @DESCUENTO WHERE PEDIDO = @PEDIDO ";
             }
-
+            sqlcomando = sqlcomando + " COMMIT END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK END CATCH ";
             db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
         }
 
         public void EliminarPedidoCompleto(PedidoParametrosViewModel PedidoParametros)
         {
-            string sqlcomando = $" DELETE FROM {this.schema}.pedido_linea where pedido = '{PedidoParametros.PEDIDO}'; DELETE FROM {this.schema}.pedido where pedido = '{PedidoParametros.PEDIDO}' ; ";
+            string sqlcomando = "";
+            sqlcomando = sqlcomando + $" BEGIN TRY BEGIN TRANSACTION ";
+            sqlcomando = sqlcomando + $" DELETE FROM {this.schema}.pedido_linea where pedido = '{PedidoParametros.PEDIDO}'; DELETE FROM {this.schema}.pedido where pedido = '{PedidoParametros.PEDIDO}' ; ";
+            sqlcomando = sqlcomando + " COMMIT END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK END CATCH ";
             db.ExecuteNonQuery(System.Data.CommandType.Text, sqlcomando);
         }
 
