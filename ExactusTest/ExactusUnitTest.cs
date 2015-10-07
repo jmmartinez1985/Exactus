@@ -71,7 +71,7 @@ namespace ExactusTest
             }
 
 
-            exac.GrabarPedido("jperez", "japerez", "bremen", Pedido, ListaPedidoLineas);
+            exac.GrabarPedido("jperez", "japerez", Pedido, ListaPedidoLineas);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace ExactusTest
         {
             List<PedidoLineaParametrosViewModel> lista = new List<PedidoLineaParametrosViewModel>();
             lista.Add(new PedidoLineaParametrosViewModel() { PEDIDO = "PBA-10000007", ARTICULO = "165/60R14 FALKE", Linea = 3 });
-            exac.EliminarLinea("jperez", "japerez", "bremen", lista);
+            exac.EliminarLinea("jperez", "japerez",  lista);
            
         }
 
@@ -114,7 +114,7 @@ namespace ExactusTest
         {
             List<PedidoLineaParametrosViewModel> lista = new List<PedidoLineaParametrosViewModel>();
             lista.Add(new PedidoLineaParametrosViewModel() { ARTICULO = "165/60R14 FALKE", CREADOR_POR = "jperez", PRECIO_UNITARIO = Convert.ToDecimal(107.52), CANTIDAD = 4, DESCUENTO = Convert.ToDecimal(0.00), PEDIDO = "PBA-10000007" });
-            exac.InsertarLineaNueva("jperez", "japerez", "bremen", lista);
+            exac.InsertarLineaNueva("jperez", "japerez", lista);
         }
 
         [TestMethod]
@@ -122,13 +122,13 @@ namespace ExactusTest
         {
             PedidoParametrosViewModel pedido = new PedidoParametrosViewModel();
             pedido.PEDIDO = "PBA-10000007";
-            exac.EliminarPedidoCompleto("jperez", "japerez", "bremen", pedido);
+            exac.EliminarPedidoCompleto("jperez", "japerez",  pedido);
         }
 
         [TestMethod]
         public void BuscarClasificacion()
         {
-            exac.ObtenerClasificacion("jperez", "japerez", "bremen", "1");
+            exac.ObtenerClasificacion("jperez", "japerez", "1");
         }
 
 
