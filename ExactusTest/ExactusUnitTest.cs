@@ -100,6 +100,12 @@ namespace ExactusTest
             exac.BuscarConsecutivo("jperez", "japerez", "bremen");
         }
 
+        public void EliminarLinea(List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        {
+
+            exac.EliminarLinea("jperez", "japerez", "bremen", PedidoLineaParametros);
+           
+        }
 
 
 
