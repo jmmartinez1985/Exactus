@@ -21,7 +21,7 @@ namespace JP.Exactus.Interfaces
         List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña, string Schema);
         string GrabarPedido(string usuario, string contraseña, string Schema, PedidoParametrosViewModel Pedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas);
 
-        void EliminarLinea(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        void EliminarLinea(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
 
 
     }
