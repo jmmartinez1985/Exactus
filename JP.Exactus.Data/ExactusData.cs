@@ -287,28 +287,25 @@ namespace JP.Exactus.Data
         }
 
 
-        public string GrabarPedido(List<PedidoParametrosViewModel> PedidoParametros, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        public string GrabarPedido(PedidoParametrosViewModel PedidoParametros, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             string sqlcomando = "";
             string Nropedido = ""; 
             sqlcomando = sqlcomando + $" DECLARE @CLIENTE VARCHAR(100); DECLARE @BODEGA  VARCHAR(100); DECLARE @ORDEN_COMPRA VARCHAR(100); DECLARE @OBSERVACIONES VARCHAR(300); ";
             sqlcomando = sqlcomando + $" DECLARE @USUARIO_LOGIN VARCHAR(100); DECLARE @TARJETA_CREDITO VARCHAR(100); DECLARE @NOMBRE_CUENTA VARCHAR(100); ";
             sqlcomando = sqlcomando + $" DECLARE @CONDICION_PAGO INTEGER; DECLARE @PEDIDO VARCHAR(100); ";
-            foreach (var item in PedidoParametros)
-            {
-                sqlcomando = sqlcomando + $" SET @BODEGA = '{item.BODEGA}';";
-                sqlcomando = sqlcomando + $" SET @ORDEN_COMPRA = '{item.ORDEN_COMPRA}';  ";
-                sqlcomando = sqlcomando + $" SET @OBSERVACIONES = '{item.OBSERVACIONES}';  ";
-                sqlcomando = sqlcomando + $" SET @USUARIO_LOGIN = '{item.USUARIO_LOGIN}';  ";
-                sqlcomando = sqlcomando + $" SET @TARJETA_CREDITO = '{item.TARJETA_CREDITO}'; ";
-                sqlcomando = sqlcomando + $" SET @NOMBRE_CUENTA = '{item.NOMBRE_CUENTA}'; ";
-                sqlcomando = sqlcomando + $" SET @CONDICION_PAGO = '{item.CONDICION_PAGO}';  ";
-                sqlcomando = sqlcomando + $" SET @CLIENTE = '{item.CLIENTE}';  ";
-                sqlcomando = sqlcomando + $" DECLARE @NUM_CONS VARCHAR(10) = '{item.CODIGO_CONSECUTIVO}'; DECLARE @CONSECUTIVO VARCHAR(50); ";
-            }
+            sqlcomando = sqlcomando + $" SET @BODEGA = '{PedidoParametros.BODEGA}';";
+            sqlcomando = sqlcomando + $" SET @ORDEN_COMPRA = '{PedidoParametros.ORDEN_COMPRA}';  ";
+            sqlcomando = sqlcomando + $" SET @OBSERVACIONES = '{PedidoParametros.OBSERVACIONES}';  ";
+            sqlcomando = sqlcomando + $" SET @USUARIO_LOGIN = '{PedidoParametros.USUARIO_LOGIN}';  ";
+            sqlcomando = sqlcomando + $" SET @TARJETA_CREDITO = '{PedidoParametros.TARJETA_CREDITO}'; ";
+            sqlcomando = sqlcomando + $" SET @NOMBRE_CUENTA = '{PedidoParametros.NOMBRE_CUENTA}'; ";
+            sqlcomando = sqlcomando + $" SET @CONDICION_PAGO = '{PedidoParametros.CONDICION_PAGO}';  ";
+            sqlcomando = sqlcomando + $" SET @CLIENTE = '{PedidoParametros.CLIENTE}';  ";
+            sqlcomando = sqlcomando + $" DECLARE @NUM_CONS VARCHAR(10) = '{PedidoParametros.CODIGO_CONSECUTIVO}'; DECLARE @CONSECUTIVO VARCHAR(50); ";
             /*sqlcomando = sqlcomando + $" SET @PEDIDO = '{PedidoParametros.PEDIDO}' ";*/
             /*sqlcomando = sqlcomando + $" SET @PEDIDO = '{Nropedido}'; ";*/
-            sqlcomando = sqlcomando + $" SELECT @CONSECUTIVO = CONVERT(INT,COALESCE(CONVERT(VARCHAR(50),CONVERT(INTEGER,SUBSTRING(MAX(PEDIDO),5,LEN(MAX(PEDIDO))))),'00000000')) + 1 FROM BREMEN.PEDIDO WHERE PEDIDO LIKE '%'+@NUM_CONS+'%' ";
+            sqlcomando = sqlcomando + $" SELECT @CONSECUTIVO = CONVERT(INT,COALESCE(CONVERT(VARCHAR(50),CONVERT(INTEGER,SUBSTRING(MAX(PEDIDO),5,LEN(MAX(PEDIDO))))),'00000000')) + 1 FROM {this.schema}.PEDIDO WHERE PEDIDO LIKE '%'+@NUM_CONS+'%' ";
             sqlcomando = sqlcomando + $" SELECT @PEDIDO = @NUM_CONS +'-'+@CONSECUTIVO ";
 
             sqlcomando = sqlcomando + $" DECLARE @FACTURADOR VARCHAR(100); DECLARE @VERSION_PRECIO VARCHAR(100); DECLARE @COBRADOR VARCHAR(100); DECLARE @RUTA VARCHAR(100); ";
@@ -369,7 +366,34 @@ namespace JP.Exactus.Data
         }
 
 
+        public void EliminarLinea(List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        {
+            string sqlcomando = "";
+            sqlcomando = sqlcomando + " DECLARE @NUM_PEDIDO VARCHAR(100), DECLARE @ARTICULO VARCHAR(100), DECLARE @LINEA INTEGER  ";
+            sqlcomando = sqlcomando + " DECLARE @SUB_TOTAL DECIMAL(14,3); DECLARE @ITBM DECIMAL(14,3); DECLARE @TOTAL DECIMAL(14,3); DECLARE @UNIDADES DECIMAL(14,3); DECLARE @MONTO_DESCUENTO DECIMAL(14,3); DECLARE @EXENTO_IMPUESTO VARCHAR(10); DECLARE @ITBMS DECIMAL(14,2); ";
+            foreach (var item in PedidoLineaParametros)
+            {
+                sqlcomando = sqlcomando + $" set @ARTICULO ='{item.ARTICULO}'; ";
+                sqlcomando = sqlcomando + $" set @NUM_PEDIDO ='{item.PEDIDO}'; ";
+                sqlcomando = sqlcomando + $" set @LINEA = {item.Linea}; ";
+                sqlcomando = sqlcomando + $" Select @ITBM = CONVERT(DECIMAL(14,2),IMPUESTO1)/100 + CONVERT(DECIMAL(14,2),IMPUESTO2)/100 From {this.schema}.IMPUESTO WHERE IMPUESTO = (SELECT IMPUESTO FROM {this.schema}.ARTICULO WHERE ARTICULO = @ARTICULO) ; ";
+                sqlcomando = sqlcomando + $" SELECT @EXENTO_IMPUESTO = EXENTO_IMPUESTOS FROM {this.schema}.CLIENTE WHERE CLIENTE = (SELECT CLIENTE FROM {this.schema}.PEDIDO WHERE PEDIDO = @NUM_PEDIDO) ";
+                sqlcomando = sqlcomando + $" IF @EXENTO_IMPUESTO = 'S' OR @ITBMS = 0 ";
+                sqlcomando = sqlcomando + $" SELECT @SUB_TOTAL = CONVERT(DECIMAL(10,4),(PRECIO_UNITARIO*CANTIDAD_PEDIDA)), @UNIDADES = CONVERT(DECIMAL(10,4),CANTIDAD_PEDIDA), @ITBM = 0 ,  ";
+                sqlcomando = sqlcomando + $" @TOTAL = ROUND(((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO),4), @MONTO_DESCUENTO = CONVERT(DECIMAL(10,4),ROUND(MONTO_DESCUENTO,4)) ";
+                sqlcomando = sqlcomando + $" FROM {this.schema}.PEDIDO_LINEA PL, {this.schema}.ARTICULO AR WHERE PL.ARTICULO = AR.ARTICULO AND PEDIDO = @NUM_PEDIDO AND  PL.ARTICULO = @ARTICULO AND  PL.PEDIDO_LINEA = @LINEA ";
+                sqlcomando = sqlcomando + $" ELSE ";
+                sqlcomando = sqlcomando + $" SELECT @SUB_TOTAL = CONVERT(DECIMAL(10,4),(PRECIO_UNITARIO*CANTIDAD_PEDIDA)), @UNIDADES = CONVERT(DECIMAL(10,4),CANTIDAD_PEDIDA),  ";
+                sqlcomando = sqlcomando + $" @ITBM = CONVERT(DECIMAL(10,4),CASE WHEN IMPUESTO = 1 THEN ROUND((((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO)*@ITBMS),4) ELSE ROUND(0,4) END)  ";
+                sqlcomando = sqlcomando + $" @TOTAL = CONVERT(DECIMAL(10,4),CASE WHEN IMPUESTO = 1 THEN ROUND(((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO) + (((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO)*@ITBMS),4) ELSE ROUND(((PRECIO_UNITARIO*CANTIDAD_PEDIDA)-MONTO_DESCUENTO),4) END), ";
+                sqlcomando = sqlcomando + $" @MONTO_DESCUENTO = CONVERT(DECIMAL(10,4),ROUND(MONTO_DESCUENTO,4)) FROM {this.schema}.PEDIDO_LINEA PL, {this.schema}.ARTICULO AR WHERE(PL.ARTICULO = AR.ARTICULO) AND PEDIDO = @NUM_PEDIDO ";
+                sqlcomando = sqlcomando + $" AND  PL.ARTICULO = @ARTICULO AND  PL.PEDIDO_LINEA = @LINEA ";
+                sqlcomando = sqlcomando + $" UPDATE {this.schema}.PEDIDO SET TOTAL_MERCADERIA = TOTAL_MERCADERIA - ROUND(@SUB_TOTAL,4), TOTAL_IMPUESTO1 = TOTAL_IMPUESTO1 - ROUND(@ITBM,4) , TOTAL_A_FACTURAR = TOTAL_A_FACTURAR - ROUND(@TOTAL,4),TOTAL_UNIDADES = TOTAL_UNIDADES - @UNIDADES, MONTO_DESCUENTO1 = MONTO_DESCUENTO1 - @MONTO_DESCUENTO WHERE PEDIDO = @NUM_PEDIDO ";
+                sqlcomando = sqlcomando + $" DELETE FROM {this.schema}.PEDIDO_LINEA WHERE ARTICULO = @ARTICULO AND PEDIDO = @NUM_PEDIDO AND PEDIDO_LINEA = @LINEA ";
+                sqlcomando = sqlcomando + $" UPDATE {this.schema}.EXISTENCIA_BODEGA SET CANT_PEDIDA = CANT_PEDIDA - @UNIDADES WHERE BODEGA = (SELECT BODEGA FROM {this.schema}.PEDIDO WHERE PEDIDO = @NUM_PEDIDO) AND ARTICULO = @ARTICULO  ";
+            }
 
+        }
 
 
 

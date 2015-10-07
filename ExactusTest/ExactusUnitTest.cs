@@ -33,21 +33,20 @@ namespace ExactusTest
         public void GrabarPedido()
         {
 
-            List<PedidoParametrosViewModel> ListaPedido = new List<PedidoParametrosViewModel>();
-            PedidoParametrosViewModel model = new PedidoParametrosViewModel();
+            PedidoParametrosViewModel Pedido = new PedidoParametrosViewModel();
             {
-                model.BODEGA = "B-51";
-                model.CLIENTE = "0000001";
-                model.CONDICION_PAGO = 0;
-                model.NOMBRE_CUENTA = "PRUEBA";
-                model.OBSERVACIONES = "...";
-                model.ORDEN_COMPRA = "...";
-                model.TARJETA_CREDITO = "...";
-                model.PEDIDO = "...";
-                model.USUARIO_LOGIN = "sa"; /*USUARIO DE LA BASE DE DATOS DE CONEXION*/
-                model.CODIGO_CONSECUTIVO = "PBA"; /*ESTE ES EL CONSECUTIVO DEL SISTEMA, SE DEBE SELECCIONAR DE ESTE METODO BuscarConsecutivo(USUARIO)*/
-            }
-            ListaPedido.Add(model);
+                Pedido.BODEGA = "B-51";
+                Pedido.CLIENTE = "0000001";
+                Pedido.CONDICION_PAGO = 0;
+                Pedido.NOMBRE_CUENTA = "PRUEBA";
+                Pedido.OBSERVACIONES = "...";
+                Pedido.ORDEN_COMPRA = "...";
+                Pedido.TARJETA_CREDITO = "...";
+                Pedido.PEDIDO = "...";
+                Pedido.USUARIO_LOGIN = "sa"; /*USUARIO DE LA BASE DE DATOS DE CONEXION*/
+                Pedido.CODIGO_CONSECUTIVO = "PBA"; /*ESTE ES EL CONSECUTIVO DEL SISTEMA, SE DEBE SELECCIONAR DE ESTE METODO BuscarConsecutivo(USUARIO)*/
+            };
+
 
 
             List<PedidoLineaParametrosViewModel> ListaPedidoLineas = new List<PedidoLineaParametrosViewModel>();
@@ -72,7 +71,7 @@ namespace ExactusTest
             }
 
 
-            exac.GrabarPedido("jperez", "japerez", "bremen", ListaPedido, ListaPedidoLineas);
+            exac.GrabarPedido("jperez", "japerez", "bremen", Pedido, ListaPedidoLineas);
         }
 
         [TestMethod]

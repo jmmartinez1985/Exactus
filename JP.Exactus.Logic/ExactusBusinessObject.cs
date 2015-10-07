@@ -53,11 +53,11 @@ namespace JP.Exactus.Logic
             return exactus.BuscarConsecutivo(usuario);            
         }
 
-        public string GrabarPedido(string usuario, string  contraseña, string  Schema, List<PedidoParametrosViewModel> ListaPedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas)
+        public string GrabarPedido(string usuario, string  contraseña, string  Schema, PedidoParametrosViewModel Pedidos, List<PedidoLineaParametrosViewModel> ListaPedidoLineas)
         {
             
             var exactus = new ExactusData(usuario, contraseña, Schema);
-            return exactus.GrabarPedido(ListaPedido, ListaPedidoLineas);
+            return exactus.GrabarPedido(Pedidos, ListaPedidoLineas);
 
         }
 
