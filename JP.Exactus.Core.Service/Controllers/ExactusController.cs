@@ -70,16 +70,18 @@ namespace JP.Exactus.Core.Service.Controllers
 
         [HttpGet]
         [Route("api/Exactus/ObtenerClasificacion")]
-        public dynamic ObtenerClasificacion(string agrupacion)
+        public dynamic ObtenerClasificacion(string usuario, string password, string agrupacion)
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                return null;
+                var agrupList = core.Exactus.ObtenerClasificacion(usuario, password, agrupacion);
+                return new { resultado = "OK", agrupacion = agrupList };
             }
         } 
 
         [HttpPost]
         [HttpGet]
+        [Route("api/Exactus/GuardarPedido")]
         public dynamic GuardarPedido(System.Net.Http.Formatting.FormDataCollection jsondata)
         {
 
