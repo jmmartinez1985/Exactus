@@ -76,7 +76,7 @@ namespace JP.Exactus.Core.Service.Controllers
             {
                 return null;
             }
-        }
+        } 
 
         [HttpPost]
         [HttpGet]
