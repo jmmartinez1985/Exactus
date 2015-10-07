@@ -53,7 +53,7 @@ namespace JP.Exactus.Logic
             return exactus.BuscarConsecutivo(usuario);            
         }
 
-        public string GrabarPedido(string usuario, string  contraseña, string  Schema, PedidoParametrosViewModel Pedidos, List<PedidoLineaParametrosViewModel> ListaPedidoLineas)
+        public string GrabarPedido(string usuario, string  contraseña, PedidoParametrosViewModel Pedidos, List<PedidoLineaParametrosViewModel> ListaPedidoLineas)
         {
             
             var exactus = new ExactusData(usuario, contraseña, Schema);
@@ -61,20 +61,20 @@ namespace JP.Exactus.Logic
 
         }
 
-        public void EliminarLinea(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        public void EliminarLinea(string usuario, string contraseña, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             var exactus = new ExactusData(usuario, contraseña, Schema);
             exactus.EliminarLinea(PedidoLineaParametros);
 
         }
 
-        public void InsertarLineaNueva(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
+        public void InsertarLineaNueva(string usuario, string contraseña,  List<PedidoLineaParametrosViewModel> PedidoLineaParametros)
         {
             var exactus = new ExactusData(usuario, contraseña, Schema);
             exactus.InsertarLineaNueva(PedidoLineaParametros);
         }
 
-        public void EliminarPedidoCompleto(string usuario, string contraseña, string Schema, PedidoParametrosViewModel PedidoParametros)
+        public void EliminarPedidoCompleto(string usuario, string contraseña,  PedidoParametrosViewModel PedidoParametros)
         {
             var exactus = new ExactusData(usuario, contraseña, Schema);
             exactus.EliminarPedidoCompleto(PedidoParametros);
