@@ -19,11 +19,11 @@ namespace JP.Exactus.Interfaces
         List<ArticuloViewModel> ObtenerArticulo(string usuario, string contraseña,string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6);
 
         List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña, string Schema);
-        string GrabarPedido(string usuario, string contraseña, string Schema, PedidoParametrosViewModel Pedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas);
+        string GrabarPedido(string usuario, string contraseña, PedidoParametrosViewModel Pedido, List<PedidoLineaParametrosViewModel> ListaPedidoLineas);
 
-        void EliminarLinea(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
-        void InsertarLineaNueva(string usuario, string contraseña, string Schema, List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
-        void EliminarPedidoCompleto(string usuario, string contraseña, string Schema, PedidoParametrosViewModel PedidoParametros);
+        void EliminarLinea(string usuario, string contraseña,  List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
+        void InsertarLineaNueva(string usuario, string contraseña,  List<PedidoLineaParametrosViewModel> PedidoLineaParametros);
+        void EliminarPedidoCompleto(string usuario, string contraseña,  PedidoParametrosViewModel PedidoParametros);
 
         List<ClasificacionViewModel> ObtenerClasificacion(string usuario, string contraseña, string Schema, string agrupacion);
 
