@@ -17,7 +17,7 @@ namespace JP.Exactus.Core.Service
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             //Enlaza las instancias de los servicios a las interfaces usando Ninject.
             IoCContainer.Bind();
