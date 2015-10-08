@@ -99,7 +99,6 @@
     <Compile Include="ViewModelExactus\ClasificacionViewModel.cs" />
     <Compile Include="ViewModelExactus\ClienteViewModel.cs" />
     <Compile Include="ViewModelExactus\ConsecutivosViewModel.cs" />
-    <Compile Include="ViewModelExactus\ImpuestoViewModel.cs" />
     <Compile Include="ViewModelExactus\PedidoLineaParametrosViewModel.cs" />
     <Compile Include="ViewModelExactus\PedidoParametrosViewModel.cs" />
     <Compile Include="ViewModel\AuditoriaViewModel.cs" />
