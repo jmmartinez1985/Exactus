@@ -24,6 +24,24 @@ namespace JP.Exactus.Core.Service.Controllers
 
         }
 
+
+
+        [HttpGet]
+        [Route("api/Exactus/BuscarUltimosPedidos")]
+        public dynamic BuscarUltimosPedidos(string usuario, string password)
+        {
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var PedidosTop = core.Exactus.BuscarUltimosPedidos(usuario, password);
+                return new { resultado = "OK", clientes = PedidosTop };
+            }
+        }
+
+
+
+
+
+
         [HttpGet]
         [Route("api/Exactus/ObtenerBodega")]
         public dynamic ObtenerBodega(string usuario, string password)
