@@ -101,6 +101,7 @@
     <Compile Include="ViewModelExactus\ConsecutivosViewModel.cs" />
     <Compile Include="ViewModelExactus\PedidoLineaParametrosViewModel.cs" />
     <Compile Include="ViewModelExactus\PedidoParametrosViewModel.cs" />
+    <Compile Include="ViewModelExactus\TopPedidoViewModel.cs" />
     <Compile Include="ViewModel\AuditoriaViewModel.cs" />
     <Compile Include="ViewModel\DispositivoViewModel.cs" />
     <Compile Include="ViewModel\EmpresasViewModel.cs" />

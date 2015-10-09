@@ -87,6 +87,12 @@ namespace JP.Exactus.Logic
             
         }
 
+        public List<TopPedidoViewModel> BuscarUltimosPedidos(string usuario, string contraseña)
+        {
+            var exactus = new ExactusData(usuario, contraseña,Schema);
+            return exactus.BuscarUltimosPedidos(usuario);
+
+        }
 
     }
 }

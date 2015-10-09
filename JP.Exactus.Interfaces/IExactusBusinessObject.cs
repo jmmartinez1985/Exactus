@@ -27,5 +27,6 @@ namespace JP.Exactus.Interfaces
 
         List<ClasificacionViewModel> ObtenerClasificacion(string usuario, string contraseña, string agrupacion);
 
+        List<TopPedidoViewModel> BuscarUltimosPedidos(string usuario, string contraseña);
     }
 }

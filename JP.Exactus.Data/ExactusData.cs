@@ -436,6 +436,44 @@ namespace JP.Exactus.Data
         }
 
 
+        public List<TopPedidoViewModel> BuscarUltimosPedidos(string usuario)
+        {
+
+
+            SqlDataReader reader;
+            //Se obtiene el reader de Enterprise Library y se convierte a SqlDataReader para poder pasarlo al dynamicReader
+            reader = ((RefCountingDataReader)db.ExecuteReader(System.Data.CommandType.Text, $"select a.Fecha_pedido Fecha, a.Pedido, b.Nombre Cliente , a.total_a_facturar Monto from {this.schema}.pedido a Inner join {this.schema}.cliente b on (a.cliente = b.cliente) where a.createdby = '{usuario}' and estado = 'N'  order by a.fecha desc")).InnerReader as SqlDataReader;
+            //Se transforma al dynamic reader para acceder por nombre y evitar los casting entre tipo y los GET...
+            dynamic dynreader = (DynamicDataReader)reader;
+            var TopPedidoList = new List<TopPedidoViewModel>();
+            //Se le el reader
+            while (dynreader.Read())
+            {
+                //Se crea objeto bodega para pasarlo a la Lista
+                TopPedidoViewModel model = new TopPedidoViewModel()
+                {
+                    FECHA = dynreader.Fecha,
+                    PEDIDO = dynreader.Pedido,
+                    CLIENTE = dynreader.Cliente,
+                    MONTO = dynreader.Monto
+                };
+                TopPedidoList.Add(model);
+            }
+            dynreader.Close();
+            reader.Close();
+            return TopPedidoList;
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 
         public string getConnectionString(string user, string password) {
