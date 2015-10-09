@@ -16,7 +16,7 @@ namespace JP.Exactus.Data.ViewModelExactus
         public Decimal LIMITE_CREDITO { get; set; }
         public String CATEGORIA_CLIENTE { get; set; }
         public String NIVEL_PRECIO { get; set; }
-        public Int32 CONDICION_PAGO { get; set; }
+        public String CONDICION_PAGO { get; set; }
         public Int32 VERSION_PRECIO { get; set; }
         public String EXENTO_IMPUESTOS { get; set; } /*Si es Exento Valor es S de lo contrario N*/
     }

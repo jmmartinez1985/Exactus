@@ -97,7 +97,7 @@ namespace ExactusTest
         [TestMethod]
         public void BuscarConsecutivo()
         {
-            exac.BuscarConsecutivo("jperez", "japerez", "bremen");
+            exac.BuscarConsecutivo("jperez", "japerez");
         }
 
         [TestMethod]
