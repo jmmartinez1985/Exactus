@@ -47,7 +47,7 @@ namespace JP.Exactus.Logic
             return exactus.ObtenerArticulo(bodega, articulo, descripcion, nivel_precio, version_precio, clasificacion1, clasificacion2, clasificacion3, clasificacion4, clasificacion5, clasificacion6);
         }
 
-        public List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña, string Schema)
+        public List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña)
         {
             var exactus = new ExactusData(usuario, contraseña, Schema);
             return exactus.BuscarConsecutivo(usuario);            

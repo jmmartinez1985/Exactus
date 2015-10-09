@@ -102,13 +102,13 @@ namespace JP.Exactus.Core.Service.Controllers
         [Route("api/Exactus/GuardarPedido")]
         public dynamic GuardarPedido(System.Net.Http.Formatting.FormDataCollection jsondata)
         {
-
             var usuario = jsondata["usuario"];
             var password = jsondata["password"];
             string pedido = "";
-            PedidoParametrosViewModel data = (PedidoParametrosViewModel)Newtonsoft.Json.JsonConvert.DeserializeObject(jsondata["jsondata"].ToString(), typeof(PedidoParametrosViewModel), new JsonSerializerSettings());
+            PedidoParametrosViewModel data = (PedidoParametrosViewModel)Newtonsoft.Json.JsonConvert.DeserializeObject(jsondata["pedido"].ToString(), typeof(PedidoParametrosViewModel), new JsonSerializerSettings());
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
+                var consecutivo = core.Exactus.BuscarConsecutivo(usuario, password);
                 pedido = core.Exactus.GrabarPedido(usuario, password, new PedidoParametrosViewModel
                 {
                     USUARIO_LOGIN = data.USUARIO_LOGIN,
@@ -116,7 +116,7 @@ namespace JP.Exactus.Core.Service.Controllers
                     PEDIDO = data.PEDIDO,
                     BODEGA = data.BODEGA,
                     CLIENTE = data.CLIENTE,
-                    CODIGO_CONSECUTIVO = data.CODIGO_CONSECUTIVO,
+                    CODIGO_CONSECUTIVO = consecutivo.FirstOrDefault().CODIGO_CONSECUTIVO,
                     CONDICION_PAGO = data.CONDICION_PAGO,
                     NOMBRE_CUENTA = data.NOMBRE_CUENTA,
                     OBSERVACIONES = data.OBSERVACIONES,
