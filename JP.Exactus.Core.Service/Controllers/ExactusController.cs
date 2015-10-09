@@ -33,7 +33,7 @@ namespace JP.Exactus.Core.Service.Controllers
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
                 var PedidosTop = core.Exactus.BuscarUltimosPedidos(usuario, password);
-                return new { resultado = "OK", clientes = PedidosTop };
+                return new { resultado = "OK", pedidosLineas = PedidosTop };
             }
         }
 
