@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http.Cors;
+using JP.Exactus.Core.Service.App_Start;
 
 namespace JP.Exactus.Core.Service
 {
@@ -29,6 +30,10 @@ namespace JP.Exactus.Core.Service
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.MessageHandlers.Add(new ErrorHandler());
+
+            config.Filters.Add(new Filters.CoreExcepcionFilterAttribute());
         }
     }
 }

@@ -465,17 +465,6 @@ namespace JP.Exactus.Data
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
         public string getConnectionString(string user, string password) {
 
             var builder = new SqlConnectionStringBuilder(System.Configuration.ConfigurationManager.ConnectionStrings["ExactusConnection"].ConnectionString);
