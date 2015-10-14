@@ -16,7 +16,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Detalle de Opciones por Empresa
-                @Html.ActionLink(" Registrar Opcion por Empresa", "Create", "Requerimiento", null, new { @class = "fa fa-plus-circle pull-right" })
+                @Html.ActionLink(" Registrar Opción por Empresa", "Create", "OpcionesEmpresa", null, new { @class = "fa fa-plus-circle pull-right" })
 
             </div>
             <!-- /.panel-heading -->
@@ -25,14 +25,16 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
-                                <th>
+                                @*<th>
                                     @Html.DisplayNameFor(model => model.IDOpcionEmpresa)
+                                </th>*@
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.IDEmpresa)*@
+                                    Empresa
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.IDEmpresa)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.IDOpcion)
+                                    @*@Html.DisplayNameFor(model => model.IDOpcion)*@
+                                    Opción
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Activo)
@@ -44,9 +46,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.IDOpcionEmpresa)
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Empresa.NombreEmpresa)
                                     </td>

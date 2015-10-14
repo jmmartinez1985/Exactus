@@ -33,6 +33,13 @@ namespace JP.Exactus.Web.Controllers
         // GET: Dispositivos/Create
         public ActionResult Create()
         {
+            
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var empresa = core.Empresas.ListarEmpresas();
+                ViewBag.Empresas = empresa.ToList();
+            }
+            
             return View();
         }
 
@@ -61,6 +68,7 @@ namespace JP.Exactus.Web.Controllers
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
                 var dispositivo = core.Dispositivos.ObtenerDispositivoPorId(id);
+                ViewBag.Empresa = core.Empresas.ListarEmpresas();
                 return View(dispositivo);
             }
         }

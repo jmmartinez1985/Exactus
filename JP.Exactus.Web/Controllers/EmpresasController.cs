@@ -40,6 +40,7 @@ namespace JP.Exactus.Web.Controllers
         [HttpPost]
         public ActionResult Create(EmpresasViewModel model)
         {
+            model.Activo = true;
             try
             {
                 using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
@@ -48,7 +49,7 @@ namespace JP.Exactus.Web.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

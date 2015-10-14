@@ -33,6 +33,11 @@ namespace JP.Exactus.Web.Controllers
         // GET: OpcionesEmpresa/Create
         public ActionResult Create()
         {
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                ViewBag.Empresa = core.Empresas.ListarEmpresas();
+                ViewBag.Opcion = core.Opciones.ListarOpciones();
+            }
             return View();
         }
 
@@ -40,6 +45,7 @@ namespace JP.Exactus.Web.Controllers
         [HttpPost]
         public ActionResult Create(OpcionesEmpresaViewModel model)
         {
+            model.Activo = true;
             try
             {
                 using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
@@ -60,6 +66,8 @@ namespace JP.Exactus.Web.Controllers
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
                 var obje = core.OpcionesEmpresa.ObtenerOpcionEmpresaPorId(id);
+                ViewBag.Empresa = core.Empresas.ListarEmpresas();
+                ViewBag.Opcion = core.Opciones.ListarOpciones();
                 return View(obje);
             }
         }

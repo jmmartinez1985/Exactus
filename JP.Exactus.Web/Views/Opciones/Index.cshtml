@@ -17,7 +17,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Detalle de Opciones
-                @Html.ActionLink(" Registrar Opcion", "Create", "Requerimiento", null, new { @class = "fa fa-plus-circle pull-right" })
+                @Html.ActionLink(" Registrar Opcion", "Create", "Opciones", null, new { @class = "fa fa-plus-circle pull-right" })
 
             </div>
             <!-- /.panel-heading -->
@@ -28,10 +28,12 @@
 
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.IDOpcion)
+                                    @*@Html.DisplayNameFor(model => model.IDOpcion)*@
+                                    ID Opción
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.DescripcionOpcion)
+                                    @*@Html.DisplayNameFor(model => model.DescripcionOpcion)*@
+                                    Descripción 
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Activo)

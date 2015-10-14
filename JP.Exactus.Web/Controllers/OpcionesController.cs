@@ -40,6 +40,7 @@ namespace JP.Exactus.Web.Controllers
         [HttpPost]
         public ActionResult Create(OpcionesViewModel model)
         {
+            model.Activo = true;
             try
             {
                 using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
@@ -60,7 +61,7 @@ namespace JP.Exactus.Web.Controllers
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var obje = core.Opciones.ListarOpciones();
+                var obje = core.Opciones.obtenerOpcionPorId(id);
                 return View(obje);
             }
         }
