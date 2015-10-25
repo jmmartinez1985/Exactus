@@ -95,7 +95,27 @@ namespace JP.Exactus.Core.Service.Controllers
                 var agrupList = core.Exactus.ObtenerClasificacion(usuario, password, agrupacion);
                 return new { resultado = "OK", agrupacion = agrupList };
             }
-        } 
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("api/Exactus/BuscarConsecutivo")]
+        public dynamic BuscarConsecutivo(string usuario, string password)
+        {
+            using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
+            {
+                var agrupList = core.Exactus.BuscarConsecutivo(usuario, password);
+                return new { resultado = "OK", agrupacion = agrupList };
+            }
+        }
+
+        
+
+
+
 
         [HttpPost]
         [HttpGet]
@@ -108,7 +128,7 @@ namespace JP.Exactus.Core.Service.Controllers
             PedidoParametrosViewModel data = (PedidoParametrosViewModel)Newtonsoft.Json.JsonConvert.DeserializeObject(jsondata["pedido"].ToString(), typeof(PedidoParametrosViewModel), new JsonSerializerSettings());
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var consecutivo = core.Exactus.BuscarConsecutivo(usuario, password);
+                //var consecutivo = core.Exactus.BuscarConsecutivo(usuario, password);
                 pedido = core.Exactus.GrabarPedido(usuario, password, new PedidoParametrosViewModel
                 {
                     USUARIO_LOGIN = data.USUARIO_LOGIN,
@@ -116,7 +136,7 @@ namespace JP.Exactus.Core.Service.Controllers
                     PEDIDO = data.PEDIDO,
                     BODEGA = data.BODEGA,
                     CLIENTE = data.CLIENTE,
-                    CODIGO_CONSECUTIVO = consecutivo.FirstOrDefault().CODIGO_CONSECUTIVO,
+                    CODIGO_CONSECUTIVO = data.CODIGO_CONSECUTIVO,
                     CONDICION_PAGO = data.CONDICION_PAGO,
                     NOMBRE_CUENTA = data.NOMBRE_CUENTA,
                     OBSERVACIONES = data.OBSERVACIONES,
