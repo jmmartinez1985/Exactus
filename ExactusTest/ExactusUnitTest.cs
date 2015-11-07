@@ -91,7 +91,7 @@ namespace ExactusTest
         [TestMethod]
         public void ObtenerArticulo()
         {
-            exac.ObtenerArticulo("jperez", "japerez", "B-51", "165", null, "ND-LOCAL", "14", null, null, null, null, null, null);
+            exac.ObtenerArticulo("jperez", "japerez", "B-51", "165", null, null, null, null, null, null, null, null);
         }
 
         [TestMethod]

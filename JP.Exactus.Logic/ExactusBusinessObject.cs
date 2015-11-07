@@ -41,10 +41,10 @@ namespace JP.Exactus.Logic
             return exactus.ObtenerClientePorRuc(RucCedula);
         }
 
-        public List<ArticuloViewModel> ObtenerArticulo(string usuario, string contraseña, string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6)
+        public List<ArticuloViewModel> ObtenerArticulo(string usuario, string contraseña, string bodega, string articulo, string descripcion, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6, string cliente)
         {
             var exactus = new ExactusData(usuario, contraseña, Schema);
-            return exactus.ObtenerArticulo(bodega, articulo, descripcion, nivel_precio, version_precio, clasificacion1, clasificacion2, clasificacion3, clasificacion4, clasificacion5, clasificacion6);
+            return exactus.ObtenerArticulo(bodega, articulo, descripcion, clasificacion1, clasificacion2, clasificacion3, clasificacion4, clasificacion5, clasificacion6, cliente);
         }
 
         public List<ConsecutivosViewModel> BuscarConsecutivo(string usuario, string contraseña)

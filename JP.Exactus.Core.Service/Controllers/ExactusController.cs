@@ -77,11 +77,11 @@ namespace JP.Exactus.Core.Service.Controllers
 
         [HttpGet]
         [Route("api/Exactus/ObtenerArticulo")]
-        public dynamic ObtenerArticulo(string usuario, string password, string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6)
+        public dynamic ObtenerArticulo(string usuario, string password, string bodega, string articulo, string descripcion,  string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6, string cliente)
         {
             using (IBusinessCoreContainer core = IoCContainer.Get<IBusinessCoreContainer>())
             {
-                var articulosList = core.Exactus.ObtenerArticulo(usuario, password, bodega, articulo, descripcion, nivel_precio, version_precio, clasificacion1, clasificacion2, clasificacion3, clasificacion4, clasificacion5, clasificacion6);
+                var articulosList = core.Exactus.ObtenerArticulo(usuario, password, bodega, articulo, descripcion, clasificacion1, clasificacion2, clasificacion3, clasificacion4, clasificacion5, clasificacion6, cliente);
                 return new { resultado = "OK", articulos = articulosList };
             }
         }

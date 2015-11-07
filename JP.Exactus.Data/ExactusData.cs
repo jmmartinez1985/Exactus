@@ -165,10 +165,11 @@ namespace JP.Exactus.Data
         /*importante BODEGA NO SE MANDA NULL NI VACIO, EN LA BUSQUEDA ES ARTICULO = NULL O DESCRIPCION = NULL PERO UNO DE LOS DOS DEBE TENER VALOR */
         /*importante nivel_precio se saca el cliente */
         /*importante clasificaciones en la clase clasificacion, la agrupacion es por ejemplo 1 y en la busqueda es clasificacion_1 */
-        public List<ArticuloViewModel> ObtenerArticulo(string bodega, string articulo, string descripcion, string nivel_precio, string version_precio, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6)
+        public List<ArticuloViewModel> ObtenerArticulo(string bodega, string articulo, string descripcion, string clasificacion1, string clasificacion2, string clasificacion3, string clasificacion4, string clasificacion5, string clasificacion6, string cliente)
         {
             string sqlcomando = "";
-            sqlcomando = $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,EB.CANT_DISPONIBLE Disponible, coalesce((SELECT PRECIO FROM {this.schema}.ARTICULO_PRECIO WHERE VERSION = '{version_precio}' AND NIVEL_PRECIO = '{nivel_precio}'  AND ARTICULO = AR.ARTICULO),0.00) PRECIO, AR.IMPUESTO ";
+            sqlcomando = $" DECLARE @NIVEL_PRECIOS VARCHAR(100); SELECT @NIVEL_PRECIOS = NIVEL_PRECIO FROM {this.schema}.CLIENTE WHERE CLIENTE = '{cliente}' ";
+            sqlcomando = sqlcomando + $" SELECT AR.ARTICULO , AR.DESCRIPCION ,AR.CODIGO_BARRAS_INVT CODIGO_BARRA,EB.CANT_DISPONIBLE Disponible, coalesce((SELECT PRECIO FROM {this.schema}.ARTICULO_PRECIO WHERE VERSION = (SELECT MAX(VERSION) FROM {this.schema}.VERSION_NIVEL WHERE NIVEL_PRECIO = @NIVEL_PRECIOS) AND NIVEL_PRECIO = @NIVEL_PRECIOS  AND ARTICULO = AR.ARTICULO),0.00) PRECIO, AR.IMPUESTO ";
             sqlcomando = sqlcomando + $" FROM {this.schema}.ARTICULO AR, {this.schema}.EXISTENCIA_BODEGA EB ";
             sqlcomando = sqlcomando + " WHERE AR.ARTICULO = EB.ARTICULO AND AR.ACTIVO = 'S' ";
             sqlcomando = sqlcomando + $" AND BODEGA = '{bodega}'";
