@@ -112,11 +112,6 @@ namespace JP.Exactus.Core.Service.Controllers
             }
         }
 
-        
-
-
-
-
         [HttpPost]
         [HttpGet]
         [Route("api/Exactus/GuardarPedido")]
